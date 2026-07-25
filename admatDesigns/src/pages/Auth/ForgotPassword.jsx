@@ -20,7 +20,7 @@ const ForgotPassword = () => {
       });
 
       toast.success(
-        "If an account exists with that email, a reset link has been sent."
+        "A reset link has been sent to this email, please check your email."
       );
     } catch (err) {
       toast.error(err?.message || "Unable to process request");
