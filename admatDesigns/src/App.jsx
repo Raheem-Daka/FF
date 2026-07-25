@@ -35,6 +35,10 @@ import SearchPage from "./pages/SearchPage";
 import Billing from "./pages/User/Billing";
 import Tracking from "./pages/User/Tracking";
 import Addresses from "./pages/User/Addresses";
+import ScrollToTop from "./components/ScrollToTop";
+
+import ForgotPassword from "./pages/Auth/ForgotPassword";
+import ResetPassword from "./pages/Auth/ResetPassword";
 
 function App() {
   const { isAuthenticated } = useAuth();
@@ -43,6 +47,7 @@ function App() {
     <>
       {/* auth state */}
 
+      <ScrollToTop />
       <Navbar isAuthenticated={isAuthenticated} />
 
       <Toaster
@@ -85,6 +90,22 @@ function App() {
                   : isAuthenticated
                     ? <Navigate to="/" replace />
                     : <SignUp />
+              }
+            />
+            <Route 
+              path="/forgot-password" 
+              element={
+                isAuthenticated
+                ? <Navigate to="/" replace />
+                : <ForgotPassword />
+              } 
+            />
+            <Route
+              path="/reset-password/:uidb64/:token"
+              element={
+                isAuthenticated
+                ? <Navigate to="/" replace />
+                : <ResetPassword />
               }
             />
 

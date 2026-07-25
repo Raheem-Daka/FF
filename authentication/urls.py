@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import SignUpViewSet, SignInViewSet,ChangePasswordView, SignOutViewSet, AuthCheckViewSet
+from .views import SignUpViewSet, SignInViewSet,ChangePasswordView, SignOutViewSet, AuthCheckViewSet, ForgotPasswordView, ResetPasswordView
 from rest_framework_simplejwt.views import  TokenObtainPairView, TokenRefreshView
 
 
@@ -36,6 +36,15 @@ urlpatterns = [
         ChangePasswordView.as_view(),
         name="change-password"
 
-    )
+    ),
+    path(
+        "forgot-password/", 
+        ForgotPasswordView.as_view(), 
+        name="forgot-password"),
+    path(
+        "reset-password/<uidb64>/<token>/",
+        ResetPasswordView.as_view(),
+        name="reset-password"
+    ),
 
 ]

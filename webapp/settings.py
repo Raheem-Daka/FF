@@ -21,7 +21,7 @@ if not SECRET_KEY:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["RWDaka.pythonanywhere.com", "127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["rwdaka.pythonanywhere.com", "127.0.0.1", "localhost"]
 
 
 # Application definition
@@ -178,10 +178,9 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 CORS_ALLOWED_ORIGINS = [
-    "http://RWDaka.pythonanywhere.com",
+    "http://rwdaka.pythonanywhere.com",
     "http://localhost:5173",
 ]
-
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = [
     "GET",
@@ -190,6 +189,12 @@ CORS_ALLOW_METHODS = [
     "PATCH",
     "DELETE",
     "OPTIONS",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://rwdaka.pythonanywhere.com",
+    "http://localhost:5173",
+    "http://127.0.0.1:8000",
 ]
 
 SIMPLE_JWT = {
@@ -225,3 +230,7 @@ EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+
+PASSWORD_RESET_TIMEOUT = 3600
+FRONTEND_URL = "http://rwdaka.pythonanywhere.com"

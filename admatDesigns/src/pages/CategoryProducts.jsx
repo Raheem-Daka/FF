@@ -4,8 +4,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import DesignCard from "../components/DesignCard";
 import CategoryList from "../components/CartegoryList";
 import SearchComponent from "../components/SearchComponent";
+import { apiFetch } from "../api/api";
+import FilterBar from "../components/FilterBarComponent";
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 const formatName = (slug) =>
   slug.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
@@ -17,30 +18,41 @@ const CategoryProducts = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    setLoading(true);
+    const fetchItems = async () => {
+      try {
+        setLoading(true);
 
-    fetch(`${API_BASE}/categories/${slug}/items/`)
-      .then((res) => res.json())
-      .then((data) => {
+        const data = await apiFetch(`/categories/${slug}/items/`);
+
         setItems(data.items || []);
+      } catch (err) {
+        console.error("Failed to fetch category items", err);
+        setItems([]);
+      } finally {
         setLoading(false);
-      })
-      .catch(() => setLoading(false));
+      }
+    };
+
+    fetchItems();
   }, [slug]);
 
   const handleNavigateToItem = (item) => {
     navigate(`/product/${item.id}/${item.slug}`)
   }
 
+  const formatName = (slug = "") =>
+  slug.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+
   return (
-    <section className="px-4 py-6">
+    <section className="px-4">
       <h1 className="text-3xl font-bold mb-6 text-center">
         {formatName(slug)}
       </h1>
 
       <div>
-        <div>
+        <div className="">
           <SearchComponent />
+          <FilterBar />
         </div>
         <div>
           <CategoryList />
@@ -55,7 +67,9 @@ const CategoryProducts = () => {
           No products found in this category...
         </p>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-4 py-10 px-10">
+        <div className="grid sm:grid-cols-2 gap-6 [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))] py-5">
+
+          
           {items.map((item) => (
             <DesignCard 
             key={item.id} 

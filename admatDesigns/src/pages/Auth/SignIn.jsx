@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../../utils/authKeys";
 import { useAuth } from "../../utils/AuthContext";
 import { toast } from "sonner";
-import { FaEnvelope, FaLock, FaGoogle, FaTwitter, FaFacebook } from "react-icons/fa";
+import { FaEnvelope, FaLock } from "react-icons/fa";
 import { apiFetch } from "../../api/api";
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -53,7 +51,9 @@ const SignIn = () => {
 
       if (data.requires_2fa){
         toast.info("2FA required, Enter your OTP");
-        localStorage.setItem("2fa_email", formData.email)
+        localStorage.setItem("2fa_email", formData.email);
+
+        setOtp("");
         setShow2FA(true);
 
         return;
@@ -78,18 +78,21 @@ const SignIn = () => {
       console.log("LOGIN ERROR", err)
       toast.error(
         err?.message ||
-        err?.respons?.data?.message ||
+        err?.response?.data?.message ||
         "Failed to sighn in, Please try again"
       );
     } finally {
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000)
+      setLoading(false);
     }
   };
 
   const verifyOTP = async () => {
     try {
+      if (otp.length !== 6) {
+        toast.error("Enter a valid 6-digit code");
+        return;
+      }
+
       const email = localStorage.getItem("2fa_email");
 
       const data = await apiFetch("/login_2fa/", {
@@ -101,13 +104,35 @@ const SignIn = () => {
       });
 
       login(data.access, data.refresh);
-      toast.success("Login successful ✅");
+      toast.success("Login successful");
 
-      setShow2FA(false);
-      navigate("/");
+      setOtp("");
+      setShow2FA(false);        
+      
+      const lastPath = localStorage.getItem("lastPath");
+
+        if (lastPath) {
+          localStorage.removeItem("lastPath");
+            navigate(lastPath, { replace: true });
+        } else {
+            navigate("/", {replace : true });
+        }
+        return        
 
     } catch (err) {
       setError("Invalid OTP");
+    }
+  };
+
+  const handleRememberMe = () => {
+    const value = !rememberMe;
+
+    setRememberMe(value);
+
+    if (value) {
+      localStorage.setItem("rememberMe", "true");
+    } else {
+      localStorage.removeItem("rememberMe");
     }
   };
 
@@ -214,19 +239,24 @@ const SignIn = () => {
             <div className="mt-8 flex w-full items-center justify-between">
                 <label className="flex cursor-pointer items-center gap-2">
                     <input 
-                    onChange={() => setRememberMe(prev => !prev)}
+                    type="checkbox"
+                    onChange={handleRememberMe}
                     className="peer hidden" 
-                    type="checkbox"/>
+
+                    />
                     <span className="relative flex size-4.5 items-center justify-center rounded border border-orange-300 peer-checked:border-orange-900 peer-checked:bg-orange-600">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-check size-3 text-white" aria-hidden="true" >
                             <path d="M20 6 9 17l-5-5"></path>
                         </svg>
                     </span>
-                    <span className="text-gray-500 select-none">Remember me</span>
+                    <span className="text-gray-500 select-none text-sm">Remember me</span>
                 </label>
-                <a className="text-orange-600 underline" href="#">
-                    Forgot password?
-                </a>
+              <Link
+                to="/forgot-password"
+                className="text-orange-600 underline text-sm"
+              >
+                Forgot password?
+              </Link>
             </div>
 
             {/* Sign In Button */}

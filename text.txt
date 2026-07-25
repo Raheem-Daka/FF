@@ -39,6 +39,7 @@ JAZZMIN_SETTINGS = {
     "welcome_sign": "Welcome Admin",
 }
 
+grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))]
 
 --RUNSERVER--
 daphne webapp.asgi:application

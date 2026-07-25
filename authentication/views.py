@@ -14,8 +14,21 @@ from settings.models import User2FA
 from datetime import timedelta
 from django.utils.timezone import now
 from django.core.cache import cache
+
+from django.conf import settings
 import uuid
 
+from django.core.mail import send_mail
+   
+from django.contrib.auth import get_user_model
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.utils.http import (
+    urlsafe_base64_encode,
+    urlsafe_base64_decode,
+)
+from django.utils.encoding import force_bytes
+
+User = get_user_model()
 
 def get_client_ip(request):
     x_forwarded = request.META.get("HTTP_X_FORWARDED_FOR")
@@ -212,3 +225,93 @@ class ChangePasswordView(APIView):
         update_session_auth_hash(request, user)
 
         return Response({"message": "Password updated successfully"})
+
+
+
+class ForgotPasswordView(APIView):
+    permission_classes = [AllowAny]
+    
+    def post(self, request):
+        email = request.data.get("email")
+
+        try:
+            user = User.objects.get(email=email)
+
+            token = PasswordResetTokenGenerator().make_token(user)
+
+            uidb64 = urlsafe_base64_encode(
+                force_bytes(user.pk)
+            )
+
+            reset_link = (
+                f"{settings.FRONTEND_URL}/"
+                f"reset-password/{uidb64}/{token}"
+            )
+
+            # send email
+
+            send_mail(
+                subject="Reset your password",
+                message=f"Click here to reset your password:\n{reset_link}",
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[user.email],
+                fail_silently=False,
+            )
+
+        except User.DoesNotExist:
+            pass
+
+        return Response(
+            {
+                "message":
+                "If the account exists, a reset email has been sent."
+            }
+        )
+
+
+class ResetPasswordView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, uidb64, token):
+        password = request.data.get("password")
+        confirm_password = request.data.get("confirm_password")
+
+        if password != confirm_password:
+            return Response(
+                {"detail": "Passwords do not match"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            uid = urlsafe_base64_decode(uidb64).decode()
+            user = User.objects.get(pk=uid)
+
+        except Exception:
+            return Response(
+                {"detail": "Invalid reset link"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        generator = PasswordResetTokenGenerator()
+
+        if not generator.check_token(user, token):
+            return Response(
+                {"detail": "Reset link has expired or is invalid"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            validate_password(password, user)
+        except ValidationError as e:
+            return Response(
+                {"detail": e.messages},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        user.set_password(password)
+        user.save()
+
+        return Response(
+            {"message": "Password reset successful"},
+            status=status.HTTP_200_OK,
+        )
