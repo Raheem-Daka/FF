@@ -52,42 +52,33 @@ const ProductDetails = () => {
         return;
       }
 
-      const res = await apiFetch(`/cart/`, {
+      if (!token) {
+        toast.error("Please sign in first");
+        navigate("/signin");
+        return;
+      }
+
+      await apiFetch(`/cart/`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify({
           item_id: item.id,
           quantity: 1,
         }),
       });
-
-      // TOKEN EXPIRED OR INVALID
-
-      if (res.status === 401) {
-        localStorage.removeItem(ACCESS_TOKEN_KEY);
-        localStorage.removeItem(REFRESH_TOKEN_KEY);
-        toast.error("Session expired. Please sign in again")
-        navigate("/signin");
-        return;
-      }
-
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || "Failed to add item to cart");
-      }
       
-        toast.success(`${item.name} added to cart 🛒`);
+      toast.success(`${item.name} added to cart 🛒`);
 
       setTimeout(() => {
         navigate("/cart", { replace: true });
       }, 800);    
     } catch (error) {
       console.error("Add to cart error:", error);
+      
       toast.error(
-        error.message || "Failed to add item to cart. Please try again.");
+        error?.error ||
+        error?.detail ||
+        error?.message || 
+        "Failed to add item to cart. Please try again.");
     } finally {
       setAdding(false);
     }

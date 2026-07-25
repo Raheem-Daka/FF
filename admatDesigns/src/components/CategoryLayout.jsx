@@ -45,7 +45,7 @@ const CategoryLayout = () => {
             <img
               src={cat.imageUrl || placeHolder}
               alt={cat.name}
-              className="h-full w-full object-cover object-center"
+              className="h-full w-full object-contain object-center"
 
             />
             

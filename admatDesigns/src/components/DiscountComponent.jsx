@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiFetch } from "../api/api";
+import placeHolder from "../assets/placeHolder.png";
+
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 const DiscountComponent = () => {
   const navigate = useNavigate();
@@ -21,14 +24,16 @@ const DiscountComponent = () => {
   );
 
   useEffect(() => {
-    apiFetch(`/products/discounts/`)
-      .then((res) => res.json())
-      .then((data) => {
+    const fetchDiscounts = async () => {
+      try {
+        const data = await apiFetch("/products/discounts/");
         setItems(data.items || []);
-      })
-      .catch((err) =>
-        console.error("Error fetching discount products:", err)
-      );
+      } catch (err) {
+        console.error("Error fetching discount products:", err);
+      }
+    };
+
+    fetchDiscounts();
   }, []);
 
   // ✅ Auto-slide logic
@@ -48,15 +53,21 @@ const DiscountComponent = () => {
       <div className="relative w-full max-w-md h-64 overflow-hidden rounded-xl bg-white shadow">
         {discountedItems.length > 0 ? (
           discountedItems.map((item, index) => {
-            const imageSrc = item.imageUrl.startsWith("http")
-              ? item.imageUrl
-              : `${API_BASE}${item.imageUrl}`;
+
+            const imageSrc = item.imageUrl
+              ? item.imageUrl.startsWith("http")
+                ? item.imageUrl
+                : `${API_BASE}${item.imageUrl}`
+              : placeHolder;
 
             return (
               <img
                 key={item.id}
                 src={imageSrc}
                 alt={item.name}
+                onError={(e) => {
+                  e.currentTarget.src = placeHolder;
+                }}
                 onClick={() => handleNavigate(item.id, item.slug)}
                 className={`absolute inset-0 w-full h-full object-cover cursor-pointer transition-opacity duration-700 ${
                   index === current ? "opacity-100" : "opacity-0"

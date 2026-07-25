@@ -17,20 +17,19 @@ export const AuthProvider = ({ children }) => {
     }
 
     try {
-      const res = await apiFetch("/profile/", {
+      const data = await apiFetch("/profile/", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
 
-      const data = await res.json();
-
       setUser({
-        ...data,          // ✅ username, email, imageUrl
-        token: accessToken
+        ...data,
+        token: accessToken,
       });
 
       setIsAuthenticated(true);
+      console.log("PROFILE DATA:", data);
 
     } catch (err) {
       console.error("Failed to fetch user:", err);

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import DesignCard from "../components/DesignCard";
+import FilterBarComponent from "../components/FilterBarComponent";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import CategoryList from "../components/CartegoryList";
 import SearchComponent from "../components/SearchComponent";
@@ -28,7 +29,10 @@ const DiscountProducts = () => {
 
         const data = await apiFetch(url);
 
+        console.log("Discount data:", data);
+
         setItems(data.results ? data.results : data.items || []);
+
       } catch (err) {
         console.error("Error fetching discount products:", err);
       } finally {
@@ -48,22 +52,23 @@ const handleNavigate = (id, slug) => {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center py-10">
-        <div className="w-10 h-10 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+        <div className="w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin" />
         <p className="mt-3 text-gray-500">Loading discount items...</p>
       </div>
     );
   }
 
   return (
-    <div className="px-10">
-      <h1 className="lg:text-4xl sm:text-2xl font-bold py-10 text-center">
-        Get quality products on discount
+    <div className="px-5 text-sm">
+      <h1 className="text-2xl lg:text-4xl text-center font-bold">
+        Discount products 
       </h1>
 
 
       <div className="w-full">
         <div className="">
           <SearchComponent/>
+          <FilterBarComponent />
         </div>
         <div>
           <CategoryList />
@@ -71,13 +76,15 @@ const handleNavigate = (id, slug) => {
       </div>
 
       {!loading && items.length === 0 && (
-        <p className="text-center text-gray-500">
-          No discounted products available.
-        </p>
+        <div className="flex justify-center py-10">
+          <p className="rounded-lg border border-gray-200 bg-gray-50 px-6 py-4 text-center text-gray-500">
+            No discounted products available.
+          </p>
+        </div>
       )}
 
       {!loading && items.length > 0 && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-7 gap-4 mt-5">
+        <div className="grid sm:grid-cols-2 gap-6 [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))]">
           {items.map((item) => (
             <DesignCard
               key={item.id}
