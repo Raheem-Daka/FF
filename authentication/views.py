@@ -17,8 +17,6 @@ from django.core.cache import cache
 
 from django.conf import settings
 import uuid
-
-from django.core.mail import send_mail
    
 from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
@@ -30,6 +28,9 @@ from django.utils.encoding import force_bytes
 
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
 
 User = get_user_model()
 
@@ -230,7 +231,6 @@ class ChangePasswordView(APIView):
         return Response({"message": "Password updated successfully"})
 
 
-
 class ForgotPasswordView(APIView):
     permission_classes = [AllowAny]
 
@@ -251,26 +251,41 @@ class ForgotPasswordView(APIView):
                 f"reset-password/{uidb64}/{token}"
             )
 
-            # send email
-
-            send_mail(
-                subject="Reset your password",
-                message=f"Click here to reset your password:\n{reset_link}",
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[user.email],
-                fail_silently=False,
+            html_content = render_to_string(
+                "emails/reset_password.html",
+                {
+                    "username": user.username,
+                    "reset_link": reset_link,
+                }
             )
+
+            email_message = EmailMultiAlternatives(
+                subject="Reset Your Password",
+                body=f"Click here to reset your password:\n{reset_link}",
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                to=[user.email],
+            )
+
+            email_message.attach_alternative(
+                html_content,
+                "text/html"
+            )
+
+            email_message.send()
 
         except User.DoesNotExist:
             pass
+
+        except Exception as e:
+            print("Password reset email error:", str(e))
 
         return Response(
             {
                 "message":
                 "If the account exists, a reset email has been sent."
-            }
+            },
+            status=status.HTTP_200_OK
         )
-
 
 class ResetPasswordView(APIView):
     permission_classes = [AllowAny]
