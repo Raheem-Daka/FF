@@ -8,8 +8,8 @@ import { apiFetch } from "../api/api";
 import RatingInput from "../components/Rating";
 import { useAuth } from "../utils/AuthContext";
 import { Loader2 } from "lucide-react";
+import { useCart } from "../context/CartContext";
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 const ProductDetails = () => {
   const { id, slug } = useParams();
@@ -22,6 +22,11 @@ const ProductDetails = () => {
   const [mainImage, setMainImage] = useState(placeHolder)
 
   const [adding, setAdding] = useState(false)
+
+  const { cart } = useCart();
+  const isInCart = cart?.items?.some(
+    (ci) => ci.item.id === item?.id
+  );
 
   const refreshItem = async () => {
     try {
@@ -47,7 +52,7 @@ const ProductDetails = () => {
         return;
       }
 
-      const res = await fetch(`${API_BASE}/cart/`, {
+      const res = await apiFetch(`/cart/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -283,7 +288,7 @@ const ProductDetails = () => {
 
           </div>
         ) : (
-          /* ✅ NORMAL ITEM (NO DISCOUNT) */
+          /* NORMAL ITEM (NO DISCOUNT) */
           <p className="text-green-600 text-2xl font-semibold">
             MWK {Number(item.price).toLocaleString("en-US")}
           </p>
@@ -326,14 +331,26 @@ const ProductDetails = () => {
 
       {/* Cart Button */}
       <div>
-        <button 
-        onClick={addToCart}
-        disabled={adding}
-        className={`rounded bg-linear-to-b from-orange-600 to-orange-800 hover:from-orange-700 hover:to-orange-900 text-white px-4 py-2 ${
-          adding ? "bg-gray-400" : "bg-orange-600 hover:bg-orange-700"
-        }`}>
-          {adding ? "Adding.." : "Add to Cart"}
-        </button>
+        {isInCart ? (
+          <button
+            onClick={() => navigate("/cart")}
+            className="rounded bg-green-600 text-sm px-2 py-1 text-white hover:bg-green-600"
+          >
+            View Cart
+          </button>
+        ) : (
+          <button
+            onClick={addToCart}
+            disabled={adding}
+            className={`rounded bg-linear-to-b text-sm from-orange-600 to-orange-800 text-white px-2 py-1 ${
+              adding
+                ? "opacity-70 cursor-not-allowed"
+                : "hover:from-orange-700 hover:to-orange-900"
+            }`}
+          >
+            {adding ? "Adding..." : "Add to Cart"}
+          </button>
+        )}
       </div>
 
       {/* Related Items */}

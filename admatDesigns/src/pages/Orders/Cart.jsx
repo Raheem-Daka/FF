@@ -89,7 +89,7 @@ const Cart = () => {
   );
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="max-w-4xl mx-auto px-6">
       <h1 className="text-2xl font-bold mb-6">Your Cart</h1>
 
       <div className="space-y-4">
@@ -99,7 +99,7 @@ const Cart = () => {
             className="flex flex-col justify-between sm:flex-row gap-4 sm:items-center border border-gray-300 rounded-lg p-4"
           >
             {/* ✅ Image */}
-            <div className="flex lg:flex-row flex-grow justify-between sm:gap-x-4">
+            <div className="flex lg:flex-row flex-grow justify-between gap-x-4">
               <img
                 src={resolveImageUrl(
                   ci.item.imageUrl ||
@@ -111,8 +111,22 @@ const Cart = () => {
                 className="w-24 h-24 object-cover rounded"
               />
 
+              {/* Name and Price */}
               <div className="flex-1 ">
                 <h2 className="font-semibold">{ci.item.name}</h2>
+
+                <div className="text-gray-500 truncate ">
+                  {ci.item.description && (
+                    <ul className="text-xs text-gray-700 list-disc pl-6">
+                      {ci.item.description
+                        .split(/\n|,/)
+                        .slice(0,3)
+                        .map((line, i) =>
+                          line.trim() ? <li key={i}>{line.trim()}</li> : null
+                        )}
+                    </ul>
+                  )}  
+                </div>
 
                 {Number(ci.item.current_price) !== Number(ci.item.price) ? (
                   <div className="text-sm">
@@ -129,38 +143,39 @@ const Cart = () => {
                   </p>
                 )}
               </div>
-
             </div>
-            {/* ✅ Info */}
 
+            <div className="flex flex-1 lg:justify-between gap-2">
             {/* ✅ Quantity */}
-            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2">
+                <button
+                disabled={updating === ci.item.id}
+                  onClick={() => updateQuantity(ci.item.id, ci.quantity - 1)}
+                  className="px-3 py-1 border border-orange-600 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  −
+                </button>
+
+                <span className="text-gray-500">{ci.quantity}</span>
+
+                <button
+                disabled={updating === ci.item.id}
+                  onClick={() => updateQuantity(ci.item.id, ci.quantity + 1)}
+                  className="px-3 py-1 border border-orange-600 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  +
+                </button>
+              </div>
+
+              {/* ✅ Remove */}
               <button
-              disabled={updating === ci.item.id}
-                onClick={() => updateQuantity(ci.item.id, ci.quantity - 1)}
-                className="px-3 py-1 border border-orange-600 rounded disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                −
+                disabled={updating === ci.item.id}
+                onClick={() => removeItem(ci.item.id)}
+                className="cursor-pointer text-red-600 transition-all duration-200 ease-in-out hover:text-red-700">
+                  <RiDeleteBin6Line size={24} />
               </button>
 
-              <span className="text-gray-500">{ci.quantity}</span>
-
-              <button
-              disabled={updating === ci.item.id}
-                onClick={() => updateQuantity(ci.item.id, ci.quantity + 1)}
-                className="px-3 py-1 border border-orange-600 rounded disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                +
-              </button>
             </div>
-
-            {/* ✅ Remove */}
-            <button
-              disabled={updating === ci.item.id}
-              onClick={() => removeItem(ci.item.id)}
-              className="cursor-pointer text-red-600 transition-all duration-200 ease-in-out hover:text-red-700">
-                <RiDeleteBin6Line size={24} />
-            </button>
           </div>
         ))}
       </div>

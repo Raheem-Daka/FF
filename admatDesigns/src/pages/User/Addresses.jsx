@@ -149,7 +149,7 @@ const Addresses = () => {
         });
       }
 
-      // ✅ REFRESH
+      // REFRESH
       const data = await apiFetch("/addresses/");
       setAddresses(formatAddresses(data));
 
@@ -284,16 +284,16 @@ const Addresses = () => {
       <div className="flex-1 p-6 transition-all duration-300">
         {/* HEADER */}
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold flex items-center gap-2">
+          <h1 className="text-2xl text-gray-500 font-bold flex items-center gap-2">
             <FaMapMarkerAlt className="text-orange-600" />
             Addresses
           </h1>
 
           <button
             onClick={openModal}
-            className="cursor-pointer rounded bg-linear-to-b from-orange-600 to-orange-800 text-orange-100 transition hover:from-orange-700 hover:to-orange-900 py-3 px-2"
+            className="cursor-pointer rounded bg-linear-to-b from-orange-600 to-orange-800 text-orange-100 transition hover:from-orange-700 hover:to-orange-900 py-1 px-2"
           >
-            + Add Address
+            + Add
           </button>
         </div>
 
@@ -306,7 +306,7 @@ const Addresses = () => {
         ) : addresses.length === 0 ? (
           // ✅ EMPTY STATE
           <div className="text-center text-gray-500 py-10 flex flex-col items-center gap-2">
-            <FaMapMarkerAlt className="text-3xl text-indigo-500" />
+            <FaMapMarkerAlt className="text-3xl text-orange-500" />
             <p>No addresses yet</p>
           </div>
         ) : (

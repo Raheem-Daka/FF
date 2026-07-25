@@ -42,10 +42,10 @@ const ProfileSidePanel = () => {
   ];
 
   return (
-    <div className="flex h-screen">
+    <div className="flex min-h-dvh">
       
       {/* MOBILE MENU BUTTON */}
-      <div className="lg:hidden fixed top-15 left-4 z-[50]">
+      <div className="lg:hidden fixed top-[60px] left-4 z-[50]">
         <button
           onClick={() => setIsOpen(true)}
           aria-label="Open menu"
@@ -65,13 +65,16 @@ const ProfileSidePanel = () => {
 
       {/* SIDEBAR */}
       <div
-        className={`fixed top-0 left-0 max-h-dvh w-auto bg-gradient-to-b from-orange-300 to-orange-100 p-4 pt-14 transform transition-all duration-300 flex flex-col gap-6 z-50
+        className={`fixed top-0 left-0 w-72 bg-gradient-to-b from-orange-300 to-orange-100
+        p-4 pt-14 transform transition-all duration-300 flex flex-col gap-6 z-50
+        overflow-y-auto hide-scrollbar
         ${isOpen ? "translate-x-0" : "-translate-x-full"}
-        lg:translate-x-0 lg:sticky lg:w-70 top-5 lg:left-0 start-self lg:max-h[calc(100vh-80px)] lg:overflow-y-auto`}
+        lg:translate-x-0 lg:sticky lg:left-0 lg:top-5
+        lg:max-h-[calc(100vh-80px) h-dvh`}
       >
           {/* CLOSE BUTTON (mobile) */}
           
-          <div className="lg:hidden flex justify-end mb-4">
+          <div className="lg:hidden flex justify-end my-2">
             <button
               onClick={() => setIsOpen(false)}
               aria-label="Close menu"
@@ -116,7 +119,7 @@ const ProfileSidePanel = () => {
           </div>
 
             {/* NAV LINKS */}
-            <div className="flex flex-col gap-2 flex-1 overflow-y-auto p-2  w-full">
+            <div className="flex flex-col gap-2 flex-1 p-2  w-full">
               {profileLinks.map((link, i) => {
                 const Icon = link.icon;
 
@@ -149,7 +152,7 @@ const ProfileSidePanel = () => {
             </div>
         </div>
         {/* LOGOUT BUTTON */}
-        <div className="flex items-start ">
+        <div className="flex items-start mt-auto">
           <button
             onClick={handleLogout}
             className="flex items-center justify-center w-full gap-2 bg-red-600 text-white py-3 rounded hover:bg-red-700 transition"

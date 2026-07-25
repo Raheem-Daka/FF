@@ -283,6 +283,7 @@ const Payments = () => {
                   type="text"
                   placeholder="MM/YY"
                   value={expiryDate}
+                  required
                   onChange={(e) => setExpiryDate(e.target.value)}
                   className="border border-gray-300 rounded-xl p-4 outline-none focus:ring-2 focus:ring-orange-500"
                 />
@@ -291,6 +292,7 @@ const Payments = () => {
                   type="password"
                   placeholder="CVV"
                   value={cvv}
+                  required
                   onChange={(e) => setCvv(e.target.value)}
                   className="border border-gray-300 rounded-xl p-4 outline-none focus:ring-2 focus:ring-orange-500"
                 />
@@ -304,6 +306,7 @@ const Payments = () => {
               type="tel"
               placeholder="Enter Airtel Number"
               value={phoneNumber}
+              required
               onChange={(e) => setPhoneNumber(e.target.value)}
               className="w-full border border-gray-300 rounded-xl p-4 outline-none focus:ring-2 focus:ring-orange-500"
             />
@@ -314,6 +317,7 @@ const Payments = () => {
               type="tel"
               placeholder="Enter TNM Mpamba Number"
               value={phoneNumber}
+              required
               onChange={(e) => setPhoneNumber(e.target.value)}
               className="w-full border border-gray-300 rounded-xl p-4 outline-none focus:ring-2 focus:ring-orange-500"
             />

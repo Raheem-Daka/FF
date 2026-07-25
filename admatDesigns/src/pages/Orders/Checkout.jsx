@@ -40,8 +40,8 @@ import { FaChevronDown } from "react-icons/fa";
   const placeOrder = async () => {
     if(placingOrder) return
 
-    if (!selectedAddress) {
-      toast.error("Please select a delivery address");
+    if (!selectedAddress || !hasAddress) {
+      toast.error("Please provide a delivery address");
       return;
     }
 
@@ -118,8 +118,8 @@ import { FaChevronDown } from "react-icons/fa";
       const data = await apiFetch("/addresses/");
       const formatted = formatAddresses(data);
 
-      console.log("RAW DATA:", data);         // ✅ correct debug
-      console.log("FORMATTED:", formatted);   // ✅ correct debug
+      console.log("RAW DATA:", data);         
+      console.log("FORMATTED:", formatted);   
 
       setAddresses(formatted);
 
@@ -163,6 +163,16 @@ import { FaChevronDown } from "react-icons/fa";
         addresses[0]
       );
     }, [addresses, selectedAddress]);
+
+    const hasSavedAddress = !!selectedAddress;
+
+    const hasManualAddress =
+      formData.full_name?.trim() &&
+      formData.phone?.trim() &&
+      formData.address?.trim() &&
+      formData.city?.trim();
+
+    const hasAddress = hasSavedAddress || hasManualAddress;
 
 
   //Auto select Default address
@@ -237,6 +247,13 @@ import { FaChevronDown } from "react-icons/fa";
     }
   };
 
+
+  const formatMWK = (value) =>
+    Number(value).toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+
   if (loading) {
     return (
           <div className="flex flex-col items-center justify-center py-10">
@@ -260,13 +277,13 @@ import { FaChevronDown } from "react-icons/fa";
     <>
 
       {Array.isArray(addresses) && addresses.length === 0 && (
-        <div className="p-4 border rounded bg-yellow-50 text-center">
-          <p className="mb-2 text-sm text-gray-600">
+        <div className="p-4 border text-sm rounded bg-yellow-50 text-center">
+          <p className="mb-2 text-gray-600">
             You don’t have any saved addresses.
           </p>
           <button
             onClick={() => navigate("/account/addresses")}
-            className="text-orange-600 font-semibold"
+            className="text-orange-600 font-semibold cursor-pointer hover:underline"
           >
             Add Address
           </button>
@@ -278,56 +295,57 @@ import { FaChevronDown } from "react-icons/fa";
           e.preventDefault();
           placeOrder();
         }}
-        className="mt-10 px-6 py-5 bg-white shadow max-w-6xl mx-auto grid lg:grid-cols-2 gap-8"
+        className="mt-5 px-6 bg-white shadow max-w-6xl mx-auto grid lg:grid-cols-2 gap-8"
       >
         {/* ✅ LEFT SIDE (Checkout form) */}
         <div>
           <h1 className="font-semibold text-2xl text-gray-500 mb-5">Checkout</h1>
 
           {/* selected address */}
-<div className="relative w-full max-w-6xl mx-auto">
-  <button
-  type="button"
-    onClick={(e) => {
-      e.stopPropagation(); // ✅ prevent closing
-      setIsOpen(prev => !prev);
-    }}
-    className="flex justify-between items-center w-full border p-3 rounded border-orange-300 text-left bg-white"
-  >    
-  {selectedFullAddress
-      ? `${selectedFullAddress.full_name} — ${selectedFullAddress.city}`
-      : "Select delivery address"
-  }
-  <FaChevronDown />
-  </button>
+          <div className="relative w-full max-w-6xl mx-auto text-sm text-gray-500">
+            <button
+            type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsOpen(prev => !prev);
+              }}
+              className="flex justify-between items-center w-full border p-3 rounded border-orange-300 text-left bg-white"
+            >    
+            {selectedFullAddress
+                ? `${selectedFullAddress.full_name} — ${selectedFullAddress.city}`
+                : "Select delivery address"
+            }
+            <FaChevronDown />
+            </button>
 
-  {isOpen && (
-    <div className="absolute z-10 mt-1 w-full bg-white border rounded shadow max-h-60 overflow-y-auto animate-fadeIn">
-      {addresses.map(addr => (
-        <div
-          key={addr.id}
-          onClick={() => {
-            handleSelectAddress(addr);
-            setIsOpen(false);
-          }}
-          className={`p-3 cursor-pointer transition flex justify-between items-center ${
-            selectedAddress === addr.id
-              ? "bg-orange-100 border-l-4 border-orange-500"
-              : "hover:bg-orange-50"
-          }`}        
-          >
-          <p className="font-medium">{addr.full_name}</p>
-          <p className="text-sm">
-            {addr.street}, {addr.city}
-          </p>
-        </div>
-        
-      ))}
-    </div>
-  )}
-</div>
+            {isOpen && (
+              <div className="absolute z-10 mt-1 w-full bg-white border rounded shadow max-h-60 overflow-y-auto animate-fadeIn">
+                {addresses.map(addr => (
+                  <div
+                    key={addr.id}
+                    onClick={() => {
+                      handleSelectAddress(addr);
+                      setIsOpen(false);
+                    }}
+                    className={`p-3 cursor-pointer transition flex justify-between items-center ${
+                      selectedAddress === addr.id
+                        ? "bg-orange-100 border-l-4 border-orange-500"
+                        : "hover:bg-orange-50"
+                    }`}        
+                    >
+                    <p className="font-medium">{addr.full_name}</p>
+                    <p className="text-sm">
+                      {addr.street}, {addr.city}
+                    </p>
+                  </div>
+                  
+                ))}
+              </div>
+            )}
+          </div>
+
           {selectedFullAddress && (
-            <div className="my-3 py-3  rounded">
+            <div className="my-3 py-3 text-sm rounded">
               <div>
                 <h2 className="font-semibold text-xl text-gray-500">selected address</h2>
               </div>
@@ -340,7 +358,7 @@ import { FaChevronDown } from "react-icons/fa";
             </div>
           )}
 
-          <div className="space-y-3">
+          <div className="space-y-3 mt-5 text-sm">
             <input
               type="text"
               placeholder="Full Name"
@@ -348,7 +366,8 @@ import { FaChevronDown } from "react-icons/fa";
               onChange={(e) =>
                 setFormData({ ...formData, full_name: e.target.value })
               }
-              className="w-full border p-3 rounded border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              required
+              className="w-full text-gray-500 border p-3 rounded border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
             />
 
             <input
@@ -358,7 +377,8 @@ import { FaChevronDown } from "react-icons/fa";
               onChange={(e) =>
                 setFormData({ ...formData, phone: e.target.value })
               }
-              className="w-full border p-3 rounded border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              required
+              className="w-full text-gray-500 border p-3 rounded border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
             />
 
             <input
@@ -368,7 +388,8 @@ import { FaChevronDown } from "react-icons/fa";
               onChange={(e) =>
                 setFormData({ ...formData, address: e.target.value })
               }
-              className="w-full border p-3 rounded border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              required
+              className="w-full text-gray-500 border p-3 rounded border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
             />
 
             <input
@@ -378,10 +399,12 @@ import { FaChevronDown } from "react-icons/fa";
               onChange={(e) =>
                 setFormData({ ...formData, city: e.target.value })
               }
-              className="w-full border p-3 rounded border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              required
+              className="w-full text-gray-500 border p-3 rounded border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
             />
           </div>
 
+          {/* Payments */}
           <div className="my-6">
             <h2 className="font-semibold text-gray-500 text-xl mb-3">Payment Method</h2>
             <select
@@ -389,7 +412,7 @@ import { FaChevronDown } from "react-icons/fa";
               onChange={(e) =>
                 setFormData({ ...formData, payment_method: e.target.value })
               }
-              className="w-full border p-3 rounded border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              className="w-full text-gray-500 border p-3 rounded border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
             >
               <option value="cod">Cash on Delivery</option>
               <option value="online">Online Payment</option>
@@ -397,8 +420,8 @@ import { FaChevronDown } from "react-icons/fa";
           </div>
         </div>
 
-        {/* ✅ RIGHT SIDE (Order Summary) */}
-        <div>
+        {/* RIGHT SIDE (Order Summary) */}
+        <div className="text-sm text-gray-500">
           <h2 className="font-semibold text-2xl text-gray-500  mb-5">Order Summary</h2>
 
           <div className="space-y-4">
@@ -413,7 +436,7 @@ import { FaChevronDown } from "react-icons/fa";
                 </div>
 
                 <p className="font-semibold">
-                  MWK {(ci.item.current_price * ci.quantity).toFixed(2)}
+                  MWK {formatMWK(ci.item.current_price * ci.quantity)}
                 </p>
               </div>
             ))}
@@ -424,12 +447,12 @@ import { FaChevronDown } from "react-icons/fa";
           <div className="space-y-2">
             <div className="flex justify-between">
               <span>Subtotal</span>
-              <span>MWK {subtotal.toFixed(2)}</span>
+              <span>MWK {formatMWK(subtotal)}</span>
             </div>
 
             <div className="flex justify-between">
               <span>Delivery</span>
-              <span>MWK {deliveryFee.toFixed(2)}</span>
+              <span>MWK {formatMWK(deliveryFee)}</span>
             </div>
           </div>
 
@@ -437,16 +460,14 @@ import { FaChevronDown } from "react-icons/fa";
 
           <div className="flex justify-between font-bold text-lg">
             <span>Total</span>
-            <span>MWK {total.toFixed(2)}</span>
+            <span>MWK {formatMWK(total)}</span>
           </div>
 
           <button
             type="submit"
             disabled={
-              placingOrder ||
-              !Array.isArray(addresses) ||
-              addresses.length === 0 ||
-              !selectedAddress
+              placingOrder || 
+              !hasAddress
             }            
             className="mt-6 w-full rounded bg-linear-to-b from-orange-600 to-orange-800 hover:from-orange-700 hover:to-orange-900 text-white px-4 py-2 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
@@ -455,9 +476,11 @@ import { FaChevronDown } from "react-icons/fa";
                 <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                 Placing order...
               </span>
+            ) : !selectedAddress ? (
+              "Select Address"
             ) : (
-              "Place order"
-            )}          
+              "Place Order"
+            )}      
           </button>
         </div>
       </form>
