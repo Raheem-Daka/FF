@@ -199,7 +199,9 @@ const Navbar = () => {
       </div>
 
       {/* ✅ Mobile Hamburger */}
-      <button className="md:hidden" onClick={toggleMenu}>
+      <button 
+      className="md:hidden" 
+      onClick={toggleMenu}>
         <svg className="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M4 6h16M4 12h16M4 18h16" />
         </svg>
@@ -270,7 +272,7 @@ const Navbar = () => {
                 {profileOpen && (
                   <div 
                   onClick={(e) => e.stopPropagation()}
-                  className="absolute right-0 top-10 w-48 bg-white text-black shadow-lg rounded-lg z-[100]">
+                  className="profile-dropdown absolute right-0 top-10 w-48 bg-white text-black shadow-lg rounded-lg z-[100]">
 
                     <ProfileDropdown
                       links={profileLinks}

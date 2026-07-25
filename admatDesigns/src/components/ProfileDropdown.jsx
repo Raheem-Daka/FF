@@ -15,28 +15,20 @@ const ProfileDropdown = ({ close, toggleMenu, onLogout }) => {
     { label: "Orders", path: "/orders", icon: Package },
   ];
 
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) {
-        close();
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () =>
-      document.removeEventListener("mousedown", handleClickOutside);
-  }, [close]);
 
   const handleProtectedClick = (path) => {
     if (!user) {
       toast.error("You must be signed in to access this page.");
+      console.log("Clicked:", path)
       close();
-      toggleMenu?.();   // ✅ close mobile menu
+      //toggleMenu?.();  
       navigate("/signin");
       return;
     }
 
     close();
-    toggleMenu?.();     // ✅ FIX (CRITICAL)
+    //toggleMenu?.();  
+    console.log("Navigating to:", path);   
     navigate(path);
   };
 
@@ -46,11 +38,12 @@ const ProfileDropdown = ({ close, toggleMenu, onLogout }) => {
     toggleMenu?.();     // ✅ FIX (CRITICAL)
     navigate("/", { replace: true });
   };
+  
 
   return (
     <div
       ref={ref}
-      className="relative right-0 top-0 w-50 bg-white text-black rounded shadow-lg py-2 z-50 "
+      className="absolute right-0 mt-2 w-52 bg-white rounded-lg shadow-lg py-2 z-50"
       onClick={(e) => e.stopPropagation()}
     >
       {options.map((option) => {
@@ -59,7 +52,10 @@ const ProfileDropdown = ({ close, toggleMenu, onLogout }) => {
         return (
           <button
             key={option.label}
-            onClick={() => handleProtectedClick(option.path)}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleProtectedClick(option.path);
+            }}
             className="flex items-center gap-2 w-full text-left px-4 py-2 
                       hover:bg-orange-600 hover:rounded hover:text-orange-200 
                       transition group"
@@ -74,12 +70,15 @@ const ProfileDropdown = ({ close, toggleMenu, onLogout }) => {
       })}
 
 
-      <button
-        onClick={handleLogout}
-        className="w-full text-left px-4 py-2 text-white bg-red-600 rounded absolute inset-x-0 bottom-[-45px] hover:bg-red-400 transition"
-      >
-        Logout
-      </button>
+      <div className="">
+        <button
+          onClick={handleLogout}
+          className="w-full text-left px-4 py-2 text-white bg-red-600 rounded absolute inset-x-0 bottom-[-45px] hover:bg-red-400 transition"
+        >
+          Logout
+        </button>
+
+      </div>
     </div>
   );
 };

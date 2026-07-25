@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-const API_BASE = import.meta.env.VITE_API_BASE_URL;
+import { apiFetch } from "../api/api";
 
 const DiscountComponent = () => {
   const navigate = useNavigate();
@@ -22,7 +21,7 @@ const DiscountComponent = () => {
   );
 
   useEffect(() => {
-    fetch(`${API_BASE}/products/discounts/`)
+    apiFetch(`/products/discounts/`)
       .then((res) => res.json())
       .then((data) => {
         setItems(data.items || []);

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaArrowDown, FaArrowRight } from "react-icons/fa";
+import { apiFetch } from "../api/api";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
