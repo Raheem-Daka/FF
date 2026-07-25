@@ -178,7 +178,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 CORS_ALLOWED_ORIGINS = [
-    "http://rwdaka.pythonanywhere.com",
+    "https://rwdaka.pythonanywhere.com",
     "http://localhost:5173",
 ]
 CORS_ALLOW_CREDENTIALS = True
@@ -233,4 +233,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 
 PASSWORD_RESET_TIMEOUT = 3600
-FRONTEND_URL = "http://rwdaka.pythonanywhere.com"
+FRONTEND_URL = "https://rwdaka.pythonanywhere.com"

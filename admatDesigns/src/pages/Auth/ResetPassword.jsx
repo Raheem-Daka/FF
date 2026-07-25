@@ -56,7 +56,7 @@ const ResetPassword = () => {
     <div className="flex items-center justify-center px-4 py-10">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-md rounded-xl border p-6 shadow-sm"
+        className="w-full max-w-md rounded-xl lg:border lg:border-gray-300 p-6 lg:shadow-sm"
       >
         <h1 className="text-3xl font-semibold text-center">
           Reset Password
@@ -72,7 +72,7 @@ const ResetPassword = () => {
             placeholder="New password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full border rounded-lg px-4 py-3 outline-none"
+            className="w-full focus:ring-2 focus:ring-orange-600 border border-orange-600 rounded-lg px-4 py-3 outline-none"
             required
           />
 
@@ -81,7 +81,7 @@ const ResetPassword = () => {
             onClick={() =>
               setShowPassword((prev) => !prev)
             }
-            className="absolute right-3 top-3"
+            className="absolute right-3 top-3 text-orange-600"
           >
             {showPassword ? (
               <EyeOff size={18} />
@@ -98,7 +98,7 @@ const ResetPassword = () => {
           onChange={(e) =>
             setConfirmPassword(e.target.value)
           }
-          className="w-full border rounded-lg px-4 py-3 mt-4 outline-none"
+          className="w-full focus:ring-2 focus:ring-orange-600 border border-orange-600 rounded-lg px-4 py-3 mt-4 outline-none"
           required
         />
 

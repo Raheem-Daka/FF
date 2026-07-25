@@ -28,6 +28,9 @@ from django.utils.http import (
 )
 from django.utils.encoding import force_bytes
 
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
+
 User = get_user_model()
 
 def get_client_ip(request):
@@ -230,7 +233,7 @@ class ChangePasswordView(APIView):
 
 class ForgotPasswordView(APIView):
     permission_classes = [AllowAny]
-    
+
     def post(self, request):
         email = request.data.get("email")
 
