@@ -5,6 +5,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import CategoryList from "../components/CartegoryList";
 import SearchComponent from "../components/SearchComponent";
 import { apiFetch } from "../api/api";
+import LoadingSkeleton from "../components/LoadingSkeleton";
 
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
@@ -13,8 +14,10 @@ const DiscountProducts = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const [ error, setError] = useState(null);
+
   const [searchParams] = useSearchParams();
-  const category = searchParams.get("category")
+  const category = searchParams.get("category");
 
   useEffect(() => {
     setLoading(true);
@@ -35,10 +38,10 @@ const DiscountProducts = () => {
 
       } catch (err) {
         console.error("Error fetching discount products:", err);
+        setError("Failed to load discount products")
+
       } finally {
-        setTimeout(() => {
           setLoading(false);
-        }, 1000)
       }
     };
 
@@ -49,14 +52,7 @@ const handleNavigate = (id, slug) => {
     navigate(`/product/${id}/${slug}`);
   };
 
-  if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center py-10">
-        <div className="w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin" />
-        <p className="mt-3 text-gray-500">Loading discount items...</p>
-      </div>
-    );
-  }
+
 
   return (
     <div className="px-5 text-sm">
@@ -65,25 +61,24 @@ const handleNavigate = (id, slug) => {
       </h1>
 
 
-      <div className="w-full">
-        <div className="">
-          <SearchComponent/>
+      {/* Sticky Header */}
+      <div className="sticky top-0 z-20 bg-white py-2 w-full">
+          <SearchComponent />
           <FilterBarComponent />
-        </div>
-        <div>
+        <div className="overflow-x-scroll">
           <CategoryList basePath="/products/discounts/"/>
         </div>
       </div>
 
-      {!loading && items.length === 0 && (
+      {loading ? (
+        <LoadingSkeleton />
+      ) : error ? (
         <div className="flex justify-center py-10">
           <p className="rounded-lg border border-gray-200 bg-gray-50 px-6 py-4 text-center text-gray-500">
-            No discounted products available.
+            {error}
           </p>
         </div>
-      )}
-
-      {!loading && items.length > 0 && (
+      ) : (
         <div className="grid sm:grid-cols-2 gap-6 [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))]">
           {items.map((item) => (
             <DesignCard
@@ -94,6 +89,7 @@ const handleNavigate = (id, slug) => {
           ))}
         </div>
       )}
+    
     </div>
   );
 };

@@ -72,10 +72,7 @@ const Home = () => {
 
 
         {loading ? (
-          <div className="flex flex-col items-center justify-center w-full py-10">
-            <div className="w-10 h-10 border-4 border-orange-600 border-t-transparent rounded-full animate-spin"></div>
-            <p className="mt-3 text-gray-500">Loading products...</p>
-          </div>        
+          <LoadingSkeleton />       
         ) : error ? (
           <p className="text-center text-red-500 mt-10">{error}</p>
         ) : (

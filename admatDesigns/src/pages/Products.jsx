@@ -18,6 +18,8 @@ const Products = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    setLoading(true);
+
     const start = Date.now();
 
     const fetchProducts = async () => {
@@ -42,12 +44,10 @@ const Products = () => {
 
       } catch (err) {
         console.error("Product fetch error:", err);
-
         setError("Failed to load products");
 
-        setTimeout(() => {
+      } finally {
           setLoading(false);
-        }, 500);
       }
     };
 
@@ -57,6 +57,7 @@ const Products = () => {
   const handleNavigate = (id, slug) => {
     navigate(`/product/${id}/${slug}`);
   };
+  
 
   return (
     <div className="px-5 ">
@@ -77,9 +78,11 @@ const Products = () => {
       {loading ? (
         <LoadingSkeleton />
       ) : error ? (
-        <p className="text-center text-red-500 mt-10">
-          {error}
-        </p>
+        <div className="flex justify-center py-10">
+          <p className="rounded-lg border border-gray-200 bg-gray-50 px-6 py-4 text-center text-gray-500">
+            {error}
+          </p>
+        </div>
       ) : (
             <div className="grid gap-3 lg:space-y-5 grid-cols-[repeat(auto-fill,minmax(180px,1fr))]">
           {items.map(item => (
