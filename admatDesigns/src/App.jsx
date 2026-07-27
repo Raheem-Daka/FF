@@ -118,6 +118,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/popular-products" element={<PopularProducts />} />
             <Route path="/search" element={<SearchPage />} />
+            <Route path="/contact" element={<Contact />} />
 
             {/* ✅ Protected routes */}
             <Route element={<ProtectedRoute />}>
@@ -126,7 +127,6 @@ function App() {
               <Route path="/account/profile" element={<Profile />} />
               <Route path="/account/settings" element={<Settings />} />
               <Route path="/account/billing" element={<Billing />} />
-              <Route path="/contact" element={<Contact />} />
               <Route path="/account/addresses" element={<Addresses />} />
               <Route path="/orders" element={<Orders />} />
               <Route path="/order-details/:id" element={<OrderDetails />} />

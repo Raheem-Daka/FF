@@ -11,8 +11,7 @@ import CategoryLayout from "../components/CategoryLayout";
 import OurPopularProducts from "../components/OurPopularProductsComponent";
 import NewsLetterComponent from "../components/NewsLetterComponent";
 import LoadingSkeleton from "../components/LoadingSkeleton";
-
-const API_BASE = import.meta.env.VITE_API_BASE_URL;
+import { apiFetch } from "../api/api";
 
 const Home = () => {
   const [items, setItems] = useState([]);
@@ -21,26 +20,33 @@ const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const start = Date.now();
+    const fetchProducts = async () => {
+      const start = Date.now();
 
-    fetch(`${API_BASE}/products/`)
-      .then((res) => res.json())
-      .then((productsData) => {
-        const delay = Math.max(800 - (Date.now() - start), 0);
+      try {
+        const productsData = await apiFetch("/products/");
+
+        const delay = Math.max(
+          800 - (Date.now() - start),
+          0
+        );
 
         setTimeout(() => {
           setItems(productsData.results || []);
           setLoading(false);
         }, delay);
-      })
-      .catch((error) => {
+
+      } catch (error) {
         console.error("Error fetching products:", error);
         setError("No products available");
 
         setTimeout(() => {
           setLoading(false);
         }, 800);
-      });
+      }
+    };
+
+    fetchProducts();
   }, []);
 
   const handleCardClick = (id, slug) => {

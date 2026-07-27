@@ -7,9 +7,6 @@ import SearchComponent from "../components/SearchComponent";
 import { apiFetch } from "../api/api";
 import LoadingSkeleton from "../components/LoadingSkeleton";
 
-
-const API_BASE = import.meta.env.VITE_API_BASE_URL;
-
 const DiscountProducts = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -36,9 +33,13 @@ const DiscountProducts = () => {
 
         setItems(data.results ? data.results : data.items || []);
 
+        const results = data.results || data.items || [];
+
+        setItems(results);
+        setError(results.length === 0 ? "No discounted products available" : null);
+
       } catch (err) {
         console.error("Error fetching discount products:", err);
-        setError("No discount products available")
 
       } finally {
           setLoading(false);

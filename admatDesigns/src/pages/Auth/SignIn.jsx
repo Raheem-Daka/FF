@@ -262,7 +262,7 @@ const SignIn = () => {
             {/* Sign In Button */}
             <button
               disabled={loading}
-              className="mt-8 h-11 w-full cursor-pointer rounded bg-linear-to-b from-orange-600 to-orange-800 text-orange-100 transition hover:from-orange-700 hover:to-orange-900"            
+              className="mt-8 h-11 w-full cursor-pointer rounded bg-orange-600 text-orange-100 transition hover:from-orange-700 hover:to-orange-600"            
               >
               {loading ? (
               <span className="flex items-center justify-center gap-2">

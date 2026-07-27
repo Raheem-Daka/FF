@@ -72,27 +72,27 @@ const Contact = () => {
 
       } catch (error) {
         console.error("Error submitting form:", error);
-        toast.error("Something went wrong.");
+        toast.error("Message not sent");
       }finally {
         setSending(false)
       }
   };
 
   return (
-    <div className="pt-10 flex justify-center bg-white rounded-lg">
+    <div className="pt-10 flex justify-center bg-white rounded-lg mx-4">
         {/*Form */}
         <form onSubmit={handleSubmit} className="xl:min-w-3xl lg:min-w-2xl md:min-w-xl items-center text-sm text-slate-80 mx-auto">
           <div className="text-center mb-6">
             <p className="text-md bg-orange-200 text-orange-600 font-semibold px-3 py-1 rounded">Contact Us</p> 
-            <h1 className="text-4xl font-bold py-4 text-center">Let’s Get In Touch.</h1>
+            <h1 className="text-4xl font-semibold py-4 text-center">Let’s Get In Touch.</h1>
             <p className="max-md:text-sm text-gray-500 pb-10 text-center">
                 Or just reach out manually to us at <a href="#" className="text-orange-600 hover:underline">admin@admin.com</a>
             </p>
           </div>
           <div>
             <label className="block font-medium">Name</label>
-            <div className="flex items-center mt-2 mb-4 h-10 pl-3 border border-slate-300 rounded focus-within:ring-2 focus-within:ring-orange-400 transition-all overflow-hidden">
-              <FaUser className="text-gray-400 mr-2" />              
+            <div className="flex items-center mt-2 mb-4 h-10 pl-3 border border-orange-600 rounded focus-within:ring-2 focus-within:ring-orange-400 transition-all overflow-hidden">
+              <FaUser className="text-orange-600 mr-2" />              
               <input
                 type="text"
                 name="name"
@@ -109,8 +109,8 @@ const Contact = () => {
 
           <div>
             <label className="block font-medium">Email</label>
-            <div className="flex items-center mt-2 mb-4 h-10 pl-3 border border-gray-300 rounded focus-within:ring-2 focus-within:ring-orange-400 transition-all overflow-hidden">
-              <FaEnvelope className="text-gray-400 mr-2" />
+            <div className="flex items-center mt-2 mb-4 h-10 pl-3 border border-orange-600 rounded focus-within:ring-2 focus-within:ring-orange-400 transition-all overflow-hidden">
+              <FaEnvelope className="text-orange-600 mr-2" />
               <input
                 type="email"
                 name="email"
@@ -125,14 +125,14 @@ const Contact = () => {
             )}
           </div>
 
-          <div>
+          <div className="">
             <label className="block font-medium">Message</label>
             <textarea
               name="message"
               value={formData.message}
               onChange={handleChange}
               rows={5}
-              className="bg-transparent w-full px-3 py-2 border border-gray-300 rounded-md resize-none outline-none focus:outline-none focus-within:ring-orange-400 focus:ring-orange-300 transition-all min-h-[100px]"
+              className="bg-transparent w-full px-3 py-2 border border-orange-600 rounded-md resize-none outline-none focus:outline-none focus-within:ring-orange-400 focus:ring-orange-300 transition-all min-h-[100px]"
             />
             {errors.message && (
               <span className="bg-red-600 rounded mt-2 text-white p-1 text-sm">{errors.message}</span>
@@ -144,8 +144,8 @@ const Contact = () => {
             type="submit"
             className={`flex items-center justify-center mt-5 py-2.5 w-full rounded transition ${
               sending
-                ? "bg-orange-300 cursor-not-allowed"
-                : "bg-gradient-to-t from-orange-500 via-orange-400 to-orange-500 hover:bg-orange-500 text-white cursor-pointer"
+                ? "bg-orange-600/80 text-white cursor-not-allowed"
+                : "bg-orange-600 text-white cursor-pointer"
             }`}
           >
             {sending ? "Sending.." : "Submit"}
