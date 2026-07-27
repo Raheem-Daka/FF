@@ -6,8 +6,9 @@ from rest_framework.response import Response
 
 from .models import Subscriber
 from .services import send_verification_email
+from django.views.decorators.csrf import csrf_exempt
 
-
+@csrf_exempt
 @api_view(["GET", "POST"])
 @permission_classes([AllowAny])
 def newsletter(request):
