@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Footer Furniture Newsletter</title>
+</head>
+
+<body style="margin:0;padding:0;background:#f4f7fb;font-family:Arial,Helvetica,sans-serif;">
+
+    <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
+        style="background:#f4f7fb;padding:20px;">
+
+        <tr>
+            <td align="center">
+
+                <table width="100%" cellpadding="0" cellspacing="0"
+                    style="max-width:800px;background:#ffffff;border-radius:20px;overflow:hidden;">
+
+                    <!-- Header -->
+                    <tr>
+                        <td align="center"
+                            style="background:linear-gradient(135deg,#ea580c,#c2410c);padding:40px 20px;">
+
+                            <h1 style="
+                                color:#ffffff;
+                                margin:0;
+                                font-size:34px;
+                                font-weight:bold;
+                            ">
+                                FOOTER FURNITURE
+                            </h1>
+
+                            <p style="
+                                color:#ffe7d6;
+                                margin-top:10px;
+                                font-size:16px;
+                            ">
+                                New Furniture • Exclusive Deals • Inspiration
+                            </p>
+
+                        </td>
+                    </tr>
+
+                    <!-- Welcome -->
+                    <tr>
+                        <td style="padding:40px;">
+
+                            <h2 style="
+                                margin-top:0;
+                                color:#ea580c;
+                            ">
+                                Hello {{ subscriber.email }},
+                            </h2>
+
+                            <p style="
+                                color:#6b7280;
+                                line-height:1.8;
+                                font-size:16px;
+                            ">
+                                We've selected some furniture and special offers
+                                we think you'll love.
+                            </p>
+
+                        </td>
+                    </tr>
+
+                    <!-- New Arrivals -->
+                    {% if new_products %}
+
+                    <tr>
+                        <td style="padding:0 40px 40px;">
+
+                            <h2 style="color:#111827;">
+                                🆕 New Arrivals
+                            </h2>
+
+                            {% for item in new_products %}
+
+                            <div style="
+                                border:1px solid #e5e7eb;
+                                border-radius:12px;
+                                padding:20px;
+                                margin-bottom:15px;
+                            ">
+
+                                {% if item.imageUrl %}
+                                <a href="https://rwdaka.pythonanywhere.com/product/{{ item.id }}/{{ item.slug }}" >
+                                    <img
+                                        src="{{ item.imageUrl }}"
+                                        alt="{{ item.name }}"
+                                        style="
+                                            width:100%;
+                                            max-width:300px;
+                                            height:auto;
+                                            display:block;
+                                            margin:0 auto 15px;
+                                            border-radius:12px;
+                                        "
+                                    >
+                                <h3 style="margin:0;color:#ea580c;">
+                                    {{ item.name }}
+                                </h3>
+
+                                </a>
+                                {% endif %}
+
+
+                                <p style="color:#6b7280;">
+                                    {{ item.description|truncatewords:20 }}
+                                </p>
+
+                                <strong>
+                                    MWK {{ item.current_price }}
+                                </strong>
+
+                            </div>
+
+                            {% endfor %}
+
+                        </td>
+                    </tr>
+
+                    {% endif %}
+
+                    <!-- Best Deals -->
+                    {% if discount_products %}
+
+                    <tr>
+                        <td style="padding:0 40px 40px;">
+
+                            <h2 style="color:#111827;">
+                                🔥 Best Deals
+                            </h2>
+
+                            {% for item in discount_products %}
+
+                            <div style="
+                                background:#fff7ed;
+                                border-left:5px solid #ea580c;
+                                padding:20px;
+                                margin-bottom:15px;
+                                border-radius:10px;
+                            ">
+
+                                {% if item.imageUrl %}
+                                <a href="https://rwdaka.pythonanywhere.com/product/{{ item.id }}/{{ item.slug }}" >
+                                    <img
+                                        src="{{ item.imageUrl }}"
+                                        alt="{{ item.name }}"
+                                        style="
+                                            width:100%;
+                                            max-width:300px;
+                                            height:auto;
+                                            display:block;
+                                            margin:0 auto 15px;
+                                            border-radius:12px;
+                                        "
+                                    >
+                                <h3 style="margin:0;color:#ea580c;">
+                                    {{ item.name }}
+                                </h3>
+
+                                </a>
+                                {% endif %}
+
+
+                                <p>
+                                    Now available at discounted pricing.
+                                </p>
+
+                            </div>
+
+                            {% endfor %}
+
+                        </td>
+                    </tr>
+
+                    {% endif %}
+
+                    <!-- Recommended -->
+                    {% if recommended_products %}
+
+                    <tr>
+                        <td style="padding:0 40px 40px;">
+
+                            <h2 style="color:#111827;">
+                                ⭐ Recommended For You
+                            </h2>
+
+                            {% for item in recommended_products %}
+
+                            <div style="
+                                border:1px solid #e5e7eb;
+                                padding:20px;
+                                margin-bottom:15px;
+                                border-radius:10px;
+                            ">
+                                {% if item.imageUrl %}
+
+                                <a href="https://rwdaka.pythonanywhere.com/product/{{ item.id }}/{{ item.slug }}" >
+                                    <img
+                                        src="{{ item.imageUrl }}"
+                                        alt="{{ item.name }}"
+                                        style="
+                                            width:100%;
+                                            max-width:300px;
+                                            height:auto;
+                                            display:block;
+                                            margin:0 auto 15px;
+                                            border-radius:12px;
+                                        "
+                                    >
+                                <strong>
+                                    {{ item.name }}
+                                </strong>
+
+                                </a>
+                                {% endif %}
+
+
+                            </div>
+
+                            {% endfor %}
+
+                        </td>
+                    </tr>
+
+                    {% endif %}
+
+                    <!-- Popular -->
+                    {% if popular_products %}
+
+                    <tr>
+                        <td style="padding:0 40px 40px;">
+
+                            <h2 style="color:#111827;">
+                                🏆 Most Popular Furniture
+                            </h2>
+
+                            {% for item in popular_products %}
+
+                            <div style="
+                                padding:15px;
+                                border-bottom:1px solid #f3f4f6;
+                            ">
+                                {% if item.imageUrl %}
+
+                                <a href="https://rwdaka.pythonanywhere.com/product/{{ item.id }}/{{ item.slug }}" >
+                                    <img
+                                        src="{{ item.imageUrl }}"
+                                        alt="{{ item.name }}"
+                                        style="
+                                            width:100%;
+                                            max-width:250px;
+                                            height:auto;
+                                            display:block;
+                                            margin:0 auto 15px;
+                                            border-radius:12px;
+                                        "
+                                    >
+                                <strong>{{ item.name }}</strong>
+                                </a>
+                                {% endif %}
+
+
+                                <br>
+
+                                MWK {{ item.current_price }}
+
+                            </div>
+
+                            {% endfor %}
+
+                        </td>
+                    </tr>
+
+                    {% endif %}
+
+                    <!-- CTA -->
+                    <tr>
+                        <td align="center" style="padding:20px 40px 50px;">
+
+                            <a 
+                                href="https://rwdaka.pythonanywhere.com"
+                                style="
+                                        display:inline-block;
+                                        background:#ea580c;
+                                        color:#ffffff;
+                                        text-decoration:none;
+                                        padding:15px 35px;
+                                        border-radius:10px;
+                                        font-weight:bold;
+                            ">
+                                Shop Now
+                            </a>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td align="center"
+                            style="
+                                background:#f9fafb;
+                                color:#9ca3af;
+                                padding:25px;
+                            ">
+
+                            © 2026 Footer Furniture
+
+                            <br><br>
+
+                            You are receiving this email because you subscribed to
+                            Footer Furniture updates.
+
+                            <br><br>
+
+                            <a href="https://rwdaka.pythonanywhere.com"></a>
+                        </td>
+                    </tr>
+
+                </table>
+
+            </td>
+        </tr>
+
+    </table>
+
+</body>
+</html>

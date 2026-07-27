@@ -64,6 +64,14 @@ class SignUpViewSet(viewsets.ViewSet):
         if serializer.is_valid():
             user = serializer.save()
 
+        subscriber = Subscriber.objects.filter(
+            email=user.email
+        ).first()
+
+        if subscriber:
+            subscriber.user = user
+            subscriber.save()
+
             return Response(
                 {
                     "message": "User created successfully",
@@ -76,7 +84,7 @@ class SignUpViewSet(viewsets.ViewSet):
                 },
                 status=status.HTTP_201_CREATED,
             )
-
+        
         return Response(
             {
                 "message": "Failed to create user",
