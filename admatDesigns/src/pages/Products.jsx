@@ -30,7 +30,7 @@ const Products = () => {
 
         console.log("Request URL:", url);
 
-        const data = await apiFetch("/products/");
+        const data = await apiFetch(url);
         console.log("Products returned:", data);
 
         const delay = Math.max(500 - (Date.now() - start), 0); // ✅ shorter

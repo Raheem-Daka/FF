@@ -209,7 +209,7 @@ const Navbar = () => {
 
       {/* ✅ Mobile Menu */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex min-h-dvh flex-col items-center justify-center gap-4 bg-black text-white">
+        <div className="fixed inset-0 z-50 flex min-h-dvh flex-col items-center justify-center gap-4 bg-white text-orange-600">
           <FaTimes
             size={24}
             className="flex items-center absolute top-5 left-5 cursor-pointer text-orange-500"
