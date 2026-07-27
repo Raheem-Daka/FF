@@ -27,7 +27,7 @@ ALLOWED_HOSTS = ["rwdaka.pythonanywhere.com", "127.0.0.1", "localhost"]
 # Application definition
 
 INSTALLED_APPS = [
- 
+
     "jazzmin",   # must be BEFORE django.contrib.admin
 
    'django.contrib.admin',
@@ -39,7 +39,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework_simplejwt',
-    
+
     'corsheaders',
     'api',
     'item',
@@ -50,13 +50,14 @@ INSTALLED_APPS = [
     'account',
     'tracking',
     'settings',
+    'newsletter',
 
     'channels',
 
     ]
 
 JAZZMIN_SETTINGS = {
-    "theme": "darkly",  
+    "theme": "darkly",
     "site_title": "My Shop Admin",
     "site_header": "My Shop Dashboard",
     "welcome_sign": "Welcome Admin",

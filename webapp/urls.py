@@ -17,6 +17,7 @@ urlpatterns = [
     path('api/', include('account.urls')),
     path('api/', include('tracking.urls')),
     path('api/', include('settings.urls')),
+    path('api/', include('newsletter.urls')),
 
     re_path(r'^.*$', frontend, name='frontend'),
 ]
