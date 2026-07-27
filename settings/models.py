@@ -24,3 +24,11 @@ class User2FA(models.Model):
             name=self.user.email,
             issuer_name="AdmatApp"
         )
+
+
+from item.models import Category
+for c in Category.objects.all():
+
+    print(c.id, c.name, c.slug)
+
+

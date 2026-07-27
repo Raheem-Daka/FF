@@ -158,8 +158,12 @@ class ItemViewSet(viewsets.ReadOnlyModelViewSet):
 
         # Category filter
         category = request.query_params.get("category")
+        print("Requested category:", category)
         if category:
             queryset = queryset.filter(category__slug=category)
+
+        print("SQL:", queryset.query)
+        print("Count:", queryset.count())
 
         # Discount filter
         has_discount = request.query_params.get("has_discount")

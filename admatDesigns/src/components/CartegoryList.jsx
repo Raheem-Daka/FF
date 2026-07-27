@@ -6,7 +6,7 @@ import placeHolder from "../assets/placeHolder.png";
 const formatName = (name) =>
   name.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 
-const CategoryList = () => {
+const CategoryList = ({ basePath= "/products" }) => {
   const [categories, setCategories] = useState([]);
   const [searchParams] = useSearchParams();
   const activeCategory = searchParams.get("category");
@@ -29,6 +29,17 @@ const CategoryList = () => {
     return () => controller.abort();
   }, []);
 
+  const getCategoryUrl = (slug) => {
+    const params = new URLSearchParams(searchParams);
+
+    if (activeCategory === slug) {
+      params.delete("category");
+    } else {
+      params.set("category", slug);
+    }
+
+    return `${basePath}?${params.toString()}`;
+  };
   return (
     <section className="">
       <h2 className="text-lg font-semibold mb-3">Shop by Category</h2>
@@ -39,18 +50,7 @@ const CategoryList = () => {
             key={cat.id}
             title={formatName(cat.name)}
             aria-label={formatName(cat.name)}
-            to={() => {
-              const params = new URLSearchParams(searchParams);
-              const currentCategory = searchParams.get("category");
-
-              if (currentCategory === cat.slug) {
-                params.delete("category");
-              } else {
-                params.set("category", cat.slug);
-              }
-
-              return `/discounts?${params.toString()}`;
-            }}
+            to={getCategoryUrl(cat.slug)}
             className={() =>
               `flex shrink-0  border border-gray-200 items-center gap-1 py-1 rounded text-sm truncate transition ${
                 activeCategory === cat.slug

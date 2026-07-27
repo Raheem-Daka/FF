@@ -71,7 +71,7 @@ const handleNavigate = (id, slug) => {
           <FilterBarComponent />
         </div>
         <div>
-          <CategoryList />
+          <CategoryList basePath="/products/discounts/"/>
         </div>
       </div>
 

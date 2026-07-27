@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DesignCard from "../components/DesignCard";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import CategoryList from "../components/CartegoryList";
 import SearchComponent from "../components/SearchComponent";
 import FilterBarComponent from "../components/FilterBarComponent";
@@ -11,6 +11,10 @@ const Products = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const [searchParams] = useSearchParams();
+  const category = searchParams.get("category");
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,7 +22,16 @@ const Products = () => {
 
     const fetchProducts = async () => {
       try {
+        let url = "/products/";
+
+        if (category) {
+          url += `?category=${category}`;
+        }
+
+        console.log("Request URL:", url);
+
         const data = await apiFetch("/products/");
+        console.log("Products returned:", data);
 
         const delay = Math.max(500 - (Date.now() - start), 0); // ✅ shorter
 
@@ -39,7 +52,7 @@ const Products = () => {
     };
 
     fetchProducts();
-  }, []);
+  }, [category]);
 
   const handleNavigate = (id, slug) => {
     navigate(`/product/${id}/${slug}`);
@@ -56,7 +69,7 @@ const Products = () => {
           <SearchComponent />
           <FilterBarComponent />
         <div className="overflow-x-scroll">
-          <CategoryList />
+          <CategoryList basePath="/products"/>
         </div>
       </div>
 
@@ -68,9 +81,7 @@ const Products = () => {
           {error}
         </p>
       ) : (
-        <div
-          className="grid sm:grid-cols-2 gap-6 [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))]"
-        >
+            <div className="grid gap-3 lg:space-y-5 grid-cols-[repeat(auto-fill,minmax(180px,1fr))]">
           {items.map(item => (
             <DesignCard
               key={item.id}

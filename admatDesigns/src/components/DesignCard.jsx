@@ -1,5 +1,6 @@
 import React from "react";
 import { apiFetch } from "../api/api";
+import placeHolder from "../assets/placeholder.png"
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
@@ -25,7 +26,7 @@ const DesignCard = ({ item, onClick }) => {
         ? item.images[0].imageUrl.startsWith("http")
           ? item.images[0].imageUrl
           : `${API_BASE}${item.images[0].imageUrl}`
-        : "/placeholder.png";   
+        : placeHolder;   
                   
   return (
     <div
@@ -38,8 +39,7 @@ const DesignCard = ({ item, onClick }) => {
       className="
         border border-zinc-200 hover:border-zinc-300
         transition-colors rounded-xl p-2
-        sm:w-44 md:w-46 lg:w-48
-        flex flex-col cursor-pointer bg-white
+        w-full flex flex-col cursor-pointer bg-white h-58
       "
     >
       {/* Image */}
@@ -66,7 +66,7 @@ const DesignCard = ({ item, onClick }) => {
           alt={item.name}
           loading="lazy"
           className="w-full h-full object-center object-cover rounded-lg transition-transform duration-300 hover:scale-105"
-          onError={(e) => (e.currentTarget.src = "/placeholder.png")}
+          onError={(e) => (e.currentTarget.src = placeHolder)}
         />
         
       </div>

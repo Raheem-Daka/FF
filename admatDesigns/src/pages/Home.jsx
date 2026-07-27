@@ -62,7 +62,7 @@ const Home = () => {
       <section className="border border-slate-100 pb-5 w-full">
         <h1 
         id="products" 
-        className="text-4xl font-bold text-center pt-5">
+        className="text-4xl font-semibold text-center pt-5">
           All Our Featured Products
         </h1>
 
@@ -80,7 +80,7 @@ const Home = () => {
           <p className="text-center text-red-500 mt-10">{error}</p>
         ) : (
           <div className="p-5">
-            <div className="grid sm:grid-cols-2 gap-6 [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))]">
+            <div className="grid gap-3 lg:space-y-5 grid-cols-[repeat(auto-fill,minmax(180px,1fr))]">
               {items.slice(0, 18).map((item) => (
                 <DesignCard
                   key={item.id}
@@ -93,7 +93,7 @@ const Home = () => {
             <div className="flex justify-center py-10">
               <button
                 onClick={handleNavProducts}
-                className="flex items-center gap-2 justify-center cursor-pointer rounded bg-linear-to-b from-orange-600 to-orange-800 text-orange-100 transition hover:from-orange-700 hover:to-orange-900 px-3 py-2"
+                className="flex items-center gap-2 justify-center cursor-pointer rounded bg-orange-600 text-orange-100 transition hover:bg-orange-900 px-3 py-2"
               >
                 View All
                 <FaArrowRight />

@@ -96,7 +96,7 @@ const DiscountComponent = () => {
 
       {/* ✅ Text */}
       <div className="flex-1 text-center lg:text-left">
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-gray-800">
           Transform your living space into a masterpiece.
         </h1>
 
