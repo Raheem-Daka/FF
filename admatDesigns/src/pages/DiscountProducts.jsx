@@ -38,7 +38,7 @@ const DiscountProducts = () => {
 
       } catch (err) {
         console.error("Error fetching discount products:", err);
-        setError("Failed to load discount products")
+        setError("No discount products available")
 
       } finally {
           setLoading(false);

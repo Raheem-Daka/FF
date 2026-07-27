@@ -35,7 +35,7 @@ const Home = () => {
       })
       .catch((error) => {
         console.error("Error fetching products:", error);
-        setError("Failed to load products");
+        setError("No products available");
 
         setTimeout(() => {
           setLoading(false);
