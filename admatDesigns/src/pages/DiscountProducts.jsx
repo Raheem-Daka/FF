@@ -80,7 +80,7 @@ const handleNavigate = (id, slug) => {
           </p>
         </div>
       ) : (
-        <div className="grid sm:grid-cols-2 gap-6 [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))]">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-4 max-w-5xl mx-auto">
           {items.map((item) => (
             <DesignCard
               key={item.id}

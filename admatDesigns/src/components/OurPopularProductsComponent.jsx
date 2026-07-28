@@ -38,21 +38,18 @@ const OurPopularProductsComponent = () => {
               <p className="mt-3 text-gray-500">Loading products...</p>
             </div>            
             ) : (
-            <div className="flex flex-wrap justify-center gap-4 max-w-5xl mx-auto">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-4 max-w-5xl mx-auto">
                 {items.map((item) => (
                 <div
                     key={item.id}
                     onClick={() => handlePopularProduct(item.id, item.slug)}
                     className="
-                    relative group rounded-lg overflow-hidden cursor-pointer
-                    transition-transform duration-300
-                    lg:hover:scale-105
-                    "
+                    relative group rounded-lg overflow-hidden cursor-pointer transition-transform duration-300 lg:hover:scale-105 w-full aspect-square"
                 >
                     <img
                     src={item.imageUrl || placeHolder}
                     alt={item.name}
-                    className="w-48 h-48 object-cover object-top"
+                    className="w-full h-full object-cover object-top"
                     />
 
                     {/* Overlay */}
