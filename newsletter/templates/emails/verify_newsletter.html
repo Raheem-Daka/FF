@@ -1,26 +1,173 @@
 <!DOCTYPE html>
 <html>
-<body>
+<head>
+    <meta charset="UTF-8">
+    <title>Verify Your Subscription</title>
+</head>
 
-<h2>Footer Furniture Newsletter</h2>
+<body style="
+    margin:0;
+    padding:0;
+    background:#f4f7fb;
+    font-family:Arial,Helvetica,sans-serif;
+">
 
-<p>
-Thank you for subscribing.
-</p>
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation"
+       style="background:#f4f7fb;padding:20px;">
 
-<p>
-Please confirm your email address by clicking below:
-</p>
+    <tr>
+        <td align="center">
 
-<p>
-{{ verify_url }}
-    Verify Subscription
-</a>
-</p>
+            <table width="100%" cellpadding="0" cellspacing="0"
+                   style="
+                        max-width:700px;
+                        background:#ffffff;
+                        border-radius:20px;
+                        overflow:hidden;
+                   ">
 
-<p>
-If you did not subscribe, simply ignore this email.
-</p>
+                <!-- Header -->
+                <tr>
+                    <td
+                        align="center"
+                        style="
+                            background:linear-gradient(135deg,#ea580c,#c2410c);
+                            padding:40px 20px;
+                        "
+                    >
+
+                        <h1 style="
+                            color:#ffffff;
+                            margin:0;
+                            font-size:32px;
+                            font-weight:bold;
+                        ">
+                            FOOTER FURNITURE
+                        </h1>
+
+                        <p style="
+                            color:#ffe7d6;
+                            margin:10px 0 0;
+                            font-size:16px;
+                        ">
+                            Newsletter Subscription Verification
+                        </p>
+
+                    </td>
+                </tr>
+
+                <!-- Content -->
+                <tr>
+                    <td style="padding:40px;">
+
+                        <h2 style="
+                            margin-top:0;
+                            color:#ea580c;
+                        ">
+                            Confirm Your Subscription
+                        </h2>
+
+                        <p style="
+                            color:#6b7280;
+                            line-height:1.8;
+                            font-size:16px;
+                        ">
+                            Thank you for subscribing to the Footer Furniture newsletter.
+                        </p>
+
+                        <p style="
+                            color:#6b7280;
+                            line-height:1.8;
+                            font-size:16px;
+                        ">
+                            Click the button below to verify your email address and start receiving:
+                        </p>
+
+                        <ul style="
+                            color:#6b7280;
+                            line-height:2;
+                        ">
+                            <li>🆕 New Arrivals</li>
+                            <li>🔥 Exclusive Deals</li>
+                            <li>⭐ Personalized Recommendations</li>
+                            <li>🏆 Popular Furniture Trends</li>
+                        </ul>
+
+                    </td>
+                </tr>
+
+                <!-- CTA -->
+                <tr>
+                    <td align="center" style="padding:0 40px 50px;">
+
+                         verify_url }}"
+                            style="
+                                display:inline-block;
+                                background:#ea580c;
+                                color:#ffffff;
+                                text-decoration:none;
+                                padding:15px 35px;
+                                border-radius:10px;
+                                font-weight:bold;
+                                font-size:16px;
+                            "
+                        >
+                            Verify Subscription
+                        </a>
+
+                    </td>
+                </tr>
+
+                <!-- Backup Link -->
+                <tr>
+                    <td style="padding:0 40px 40px;">
+
+                        <p style="
+                            color:#9ca3af;
+                            font-size:14px;
+                            line-height:1.8;
+                        ">
+                            If the button doesn't work, copy and paste this link into your browser:
+                        </p>
+
+                        <p style="
+                            word-break:break-all;
+                            font-size:14px;
+                        ">
+                            {{ verify_url }}>
+                        </p>
+
+                    </td>
+                </tr>
+
+                <!-- Footer -->
+                <tr>
+                    <td
+                        align="center"
+                        style="
+                            background:#f9fafb;
+                            color:#9ca3af;
+                            padding:25px;
+                            font-size:13px;
+                        "
+                    >
+
+                        © 2026 Footer Furniture
+
+                        <br><br>
+
+                        If you did not subscribe to this newsletter,
+                        simply ignore this email.
+
+                    </td>
+                </tr>
+
+            </table>
+
+        </td>
+    </tr>
+
+</table>
 
 </body>
 </html>
