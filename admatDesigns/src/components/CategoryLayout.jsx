@@ -41,7 +41,7 @@ const CategoryLayout = () => {
           <div
           key={cat.id}
           onClick={() => handleNavigateToCategory(cat)} 
-          className="snap-start flex-shrink-0 relative group transition-all xl:w-52 lg:w-48 md:w-40 sm:w-[250px] rounded-lg overflow-hidden h-full duration-500 lg:hover:w-96 cursor-pointer">
+          className="snap-start flex-shrink-0 relative group transition-all duration-500 cursor-pointer w-[250px] sm:w-[260px] md:w-[280px] lg:w-48 lg:hover:w-96 xl:w-52 xl:hover:w-[420px] h-full rounded-lg overflow-hidden">
             <img
               src={cat.imageUrl || placeHolder}
               alt={cat.name}
