@@ -15,7 +15,7 @@ const DiscountComponent = () => {
   };
 
   const handleNavigate = (id, slug) => {
-    navigate(`/products/${id}/${slug}`);
+    navigate(`/product/${id}/${slug}`);
   };
 
   // ✅ Only discounted products
