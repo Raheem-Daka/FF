@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaCartPlus, FaTimes, FaUser } from "react-icons/fa";
+import { FaCartPlus, FaFire, FaTimes, FaUser } from "react-icons/fa";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import ProfileDropdown from "./ProfileDropdown";
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../utils/authKeys";
@@ -68,6 +68,10 @@ const Navbar = () => {
 
   const toggleMenu = () => setIsOpen(prev => !prev);
 
+  const handleHotDeals = () => {
+    navigate("/products/discounts")
+  }
+
   return (
     <nav
       className={`fixed top-0 left-0 flex items-center w-full justify-between px-6 py-3 transition-all duration-300 md:px-2 lg:px-24 xl:px-32 z-[600] ${
@@ -125,7 +129,25 @@ const Navbar = () => {
             </span>
           </NavLink>
         ))}
+
+        <div className="relative ml-10">
+          <NavLink
+            to="/products/discounts"
+            className={({ isActive }) =>
+              `
+                flex items-center text-sm gap-2 px-4 py-2 rounded-full
+                ${isActive
+                  ? "bg-orange-500 text-white"
+                  : "bg-orange-100 text-orange-600"}
+              `
+            }
+          >
+            <FaFire />
+            Hot Deals
+          </NavLink>
+        </div>
       </div>
+      
 
       {/* ✅ Desktop Auth Buttons */}
       <div className="hidden md:flex items-center gap-1">
@@ -191,7 +213,7 @@ const Navbar = () => {
         ) : (
           <Link
             to="/signin"
-            className="text-orange-100 border px-4 py-2 rounded bg-linear-to-b from-orange-600 to-orange-800 hover:from-orange-700 hover:to-orange-900 hover:text-orange-200 transition hover:cursor-pointer"
+            className="text-orange-100 border px-4 py-2 rounded bg-orange-600 hover:from-orange-700 hover:to-orange-900 hover:text-orange-200 transition hover:cursor-pointer"
           >
             Login
           </Link>
@@ -216,13 +238,32 @@ const Navbar = () => {
             onClick={toggleMenu}
           />
 
+          {/* Mobile Hot Deals */}
+          <div className="relative">
+            <NavLink
+              to="/products/discounts"
+              className={({ isActive }) =>
+                `
+                  flex items-center gap-2 px-4 py-2 rounded-full text-sm
+                  ${isActive
+                    ? "bg-orange-500 text-white"
+                    : "bg-orange-100 text-orange-600"}
+                `
+              }
+            >
+              <FaFire />
+              Hot Deals
+            </NavLink>          
+          </div>
+
+          {/* Mobile Links*/}
           {navlinks.map((link, i) => (
             <NavLink
               key={i}
               to={link.path}
               onClick={toggleMenu}
               className={({ isActive }) =>
-                isActive ? "underline font-semibold text-orange-500" : "text-orange-500"
+                isActive ? "underline font-semibold text-orange-500 text-sm" : "text-orange-500 text-sm"
               }
             >
               {link.name}
@@ -287,6 +328,8 @@ const Navbar = () => {
                   </div>
                 )}
               </div>
+
+              
 
             </div>
           ) : (

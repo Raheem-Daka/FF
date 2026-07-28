@@ -40,6 +40,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import ResetPassword from "./pages/Auth/ResetPassword";
 
+
 function App() {
   const { isAuthenticated } = useAuth();
 
