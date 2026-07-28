@@ -14,6 +14,9 @@ from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework.authentication import SessionAuthentication
 
+from django.http import HttpResponse
+from django.shortcuts import redirect
+
 class CsrfExemptSessionAuthentication(SessionAuthentication):
     def enforce_csrf(self, request):
         return
@@ -76,4 +79,23 @@ def newsletter(request):
                 "success": "Successful. Please check your email to verify."
             },
             status=201
+        )
+
+
+
+
+
+def verify_newsletter(request, token):
+    try:
+        subscriber = Subscriber.objects.get(token=token)
+
+        subscriber.verified = True
+        subscriber.save()
+
+        return redirect("https://rwdaka.pythonanywhere.com")
+
+    except Subscriber.DoesNotExist:
+        return HttpResponse(
+            "Invalid verification link.",
+            status=404
         )

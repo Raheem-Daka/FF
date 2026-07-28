@@ -63,7 +63,7 @@ def send_verification_email(subscriber):
 
     verify_url = (
         f"https://rwdaka.pythonanywhere.com/"
-        f"newsletter/verify/{subscriber.token}/"
+        f"/api/newsletter/verify/{subscriber.token}/"
     )
 
     html_content = render_to_string(
