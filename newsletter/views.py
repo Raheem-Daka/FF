@@ -73,7 +73,7 @@ def newsletter(request):
 
         return Response(
             {
-                "success": "Subscription successful. Please check your email to verify your subscription."
+                "success": "Successful. Please check your email to verify."
             },
             status=201
         )
