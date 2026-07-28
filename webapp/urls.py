@@ -7,7 +7,8 @@ from api.views import frontend
 urlpatterns = [
     path('', frontend, name='frontend'),
 
-    path('admin/', admin.site.urls),
+    path("control-center-8x7k2q/", admin.site.urls),
+    
     path('api/', include('api.urls')),
     path('api/', include('item.urls')),
     path('api/', include('contact.urls')),
