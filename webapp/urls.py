@@ -2,13 +2,14 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf.urls.static import static
 from django.conf import settings
-from api.views import frontend
+from api.views import frontend, honeypot_admin_login
 
 urlpatterns = [
     path('', frontend, name='frontend'),
 
+    path("admin/", honeypot_admin_login),
     path("control-center-8x7k2q/", admin.site.urls),
-    
+
     path('api/', include('api.urls')),
     path('api/', include('item.urls')),
     path('api/', include('contact.urls')),
