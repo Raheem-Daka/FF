@@ -38,7 +38,7 @@ const OurPopularProductsComponent = () => {
               <p className="mt-3 text-gray-500">Loading products...</p>
             </div>            
             ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-4 max-w-5xl mx-auto">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-1 md:gap-2 lg:gap-3 max-w-5xl mx-auto">
                 {items.map((item) => (
                 <div
                     key={item.id}

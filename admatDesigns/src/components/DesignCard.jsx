@@ -38,7 +38,7 @@ const DesignCard = ({ item, onClick }) => {
       onClick={() => onClick?.(item.id, item.slug)}
       className="
         border border-zinc-200 hover:border-zinc-300
-        transition-colors rounded-xl p-2
+        transition-colors rounded-xl p-1
         w-full flex flex-col cursor-pointer bg-white h-58
       "
     >
