@@ -23,6 +23,7 @@ class CsrfExemptSessionAuthentication(SessionAuthentication):
 @authentication_classes([CsrfExemptSessionAuthentication])
 @permission_classes([AllowAny])
 def newsletter(request):
+    print("NEWSLETTER HIT")
 
     if request.method == "GET":
 
