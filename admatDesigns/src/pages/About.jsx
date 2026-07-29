@@ -29,7 +29,7 @@ const About = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen pt-5 text-sm">
       <main className="flex-grow px-6">
         <div className="max-w-5xl mx-auto text-center">
           <h1 className="text-4xl font-bold text-gray-800 mb-6">
@@ -37,7 +37,7 @@ const About = () => {
           </h1>
 
            <p
-            className="text-lg text-gray-600 mb-10 cursor-pointer hover:text-blue-600"
+            className="text-gray-600 mb-10 cursor-pointer hover:text-blue-600"
             onClick={() =>
               handleClick(
                 "AdmatFurniture believes furniture is more than utility — it reflects lifestyle, taste, and comfort. Our mission is to craft modern, durable, and stylish pieces that transform houses into homes."
@@ -66,7 +66,7 @@ const About = () => {
           </div>
           
           <p
-            className="text-lg text-gray-600 "      
+            className="text-gray-600 "      
           >
             Whether you’re furnishing a cozy apartment or a spacious office,
             AdmatFurniture is here to bring comfort, style, and functionality
