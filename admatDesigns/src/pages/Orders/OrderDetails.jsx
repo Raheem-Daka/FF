@@ -134,10 +134,10 @@ const OrderDetails = () => {
   }[normalizedStatus] || "text-gray-600";
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="lg:max-w-5xl mx-auto p-6 text-sm">
       <button
         onClick={() => navigate("/orders")}
-        className="mb-4 cursor-pointer rounded bg-linear-to-b from-orange-600 to-orange-800 text-orange-100 transition hover:from-orange-700 hover:to-orange-900 gap-1 p-2 flex items-center"
+        className="mb-4 cursor-pointer rounded bg-orange-600 text-orange-100 transition hover:from-orange-700 hover:to-orange-900 gap-1 p-2 flex items-center"
       >
         <FaArrowLeft />
         Back to Orders
@@ -159,7 +159,7 @@ const OrderDetails = () => {
         <div className="flex gap-2 mt-3">
           <button
             onClick={() => navigate(`/orders-tracking?order=${order.id}`)}
-            className="px-4 py-2 cursor-pointer rounded bg-linear-to-b from-orange-600 to-orange-800 text-orange-100 transition hover:from-orange-700 hover:to-orange-900 transition"
+            className="px-4 py-2 cursor-pointer rounded bg-orange-600 text-orange-100 transition hover:from-orange-700 hover:to-orange-900 transition"
           >
             Track Order
           </button>

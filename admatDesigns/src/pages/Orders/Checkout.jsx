@@ -469,7 +469,7 @@ import { FaChevronDown } from "react-icons/fa";
               placingOrder || 
               !hasAddress
             }            
-            className="mt-6 w-full rounded bg-linear-to-b from-orange-600 to-orange-800 hover:from-orange-700 hover:to-orange-900 text-white px-4 py-2 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            className="mt-6 w-full rounded bg-orange-600 hover:from-orange-700 hover:to-orange-900 text-white px-4 py-2 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {placingOrder ? (
               <span className="flex items-center justify-center gap-2">

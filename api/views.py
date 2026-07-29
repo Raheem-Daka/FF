@@ -6,6 +6,8 @@ from rest_framework.response import Response
 from django.shortcuts import render
 from django.http import HttpResponse
 
+from django.middleware.csrf import get_token
+
 import logging
 
 def frontend(request):
@@ -32,8 +34,6 @@ def home(request):
 
 logger = logging.getLogger(__name__)
 
-from django.http import HttpResponse
-from django.middleware.csrf import get_token
 
 def honeypot_admin_login(request):
     csrf_token = get_token(request)

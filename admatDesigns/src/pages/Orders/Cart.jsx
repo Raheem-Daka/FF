@@ -130,12 +130,20 @@ const Cart = () => {
 
                 {Number(ci.item.current_price) !== Number(ci.item.price) ? (
                   <div className="text-sm">
-                    <p className="text-red-500 line-through">
-                      Was: MWK {formatMWK(ci.item.price)}
-                    </p>
-                    <p className="text-green-600 font-semibold">
-                      Now: MWK {formatMWK(ci.item.current_price)}
-                    </p>
+                    <div className="flex gap-2  font-semibold">
+                      <p className="font-semibold text-red-500">was : </p>
+                      <p className="text-red-500 line-through">
+                        MWK {formatMWK(ci.item.price)}
+                      </p>
+                    </div>
+
+                    <div className="flex gap-2  font-semibold">
+                      <p className="font-semibold text-green-500">Now : </p>
+                      <p className="text-green-600">
+                        MWK {formatMWK(ci.item.current_price)}
+                      </p>
+                    </div>
+
                   </div>
                 ) : (
                   <p className="text-green-600 font-semibold">
@@ -188,7 +196,7 @@ const Cart = () => {
 
         <button
           onClick={() => navigate("/checkout")}
-          className="w-full sm:w-auto rounded bg-linear-to-b from-orange-600 to-orange-800 px-4 py-2 text-white"
+          className="w-full sm:w-auto rounded bg-orange-600 px-4 py-2 text-orange-100"
         >
           Checkout
         </button>

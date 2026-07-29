@@ -25,7 +25,7 @@ const LoadingSkeleton = () => {
   }, []);
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-1 md:gap-2 lg:gap-3 max-w-5xl mx-auto">
+    <div className="grid grid-cols-2 sm:grid-cols-3 mt-5 md:grid-cols-4 lg:grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-1 md:gap-2 lg:gap-3 lg:max-w-7xl mx-auto">
       {[...Array(count)].map((_, i) => (
         <div key={i} className="p-2 border border-gray-200 rounded-lg">
           <div className="h-32 bg-gray-200 animate-pulse rounded mb-2"></div>
