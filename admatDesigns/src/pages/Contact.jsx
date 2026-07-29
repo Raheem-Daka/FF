@@ -18,19 +18,6 @@ const Contact = () => {
   const navigate = useNavigate();
   const [sending, setSending] = useState(false)
 
-  useEffect(() => {
-    const fetchMessage = async () => {
-      try {
-        await apiFetch('/contact/', {
-          method: "POST",
-        });
-      } catch (error) {
-        console.error("Error fetching message:", error);
-      }
-    };
-
-    fetchMessage();
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -77,6 +64,20 @@ const Contact = () => {
         setSending(false)
       }
   };
+
+  useEffect(() => {
+    const fetchMessage = async () => {
+      try {
+        await apiFetch('/contact/', {
+          method: "POST",
+        });
+      } catch (error) {
+        console.error("Error fetching message:", error);
+      }
+    };
+
+    fetchMessage();
+  }, []);
 
   return (
     <div className="pt-10 flex justify-center bg-white rounded-lg mx-4">
@@ -129,6 +130,7 @@ const Contact = () => {
             <label className="block font-medium">Message</label>
             <textarea
               name="message"
+              placeholder="Tell us how we can help..."
               value={formData.message}
               onChange={handleChange}
               rows={5}
@@ -148,13 +150,19 @@ const Contact = () => {
                 : "bg-orange-600 text-white cursor-pointer"
             }`}
           >
-            {sending ? "Sending.." : "Submit"}
+            {sending ? (
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              </div>
+            ) : (
+              "Submit"
+            )}
           </button>
         </form>
 
       {submitted && (
-        <div className="fixed inset-0 bg-white flex items-center justify-center z-50">
-          <div className="rounded-lg flex flex-col items-center justify-center text-center max-w-md w-full p-6">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl shadow-2xl flex flex-col items-center justify-center text-center max-w-md w-full p-8">
             <FaCheckCircle className="text-green-500 text-5xl mx-auto mb-4" />
             <h2 className="text-xl font-bold mb-2 text-gray-800">Thank You!</h2>
             <p className="text-gray-600 mb-6">

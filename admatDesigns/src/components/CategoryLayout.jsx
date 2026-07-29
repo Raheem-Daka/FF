@@ -36,7 +36,7 @@ const CategoryLayout = () => {
       <p className="text-sm text-slate-500 text-center mt-2 max-w-lg mx-auto">
         A visual collection of our most recent works - each piece crafted with intention, emotion, and style.
       </p>
-      <div className="sm:px-5 px-2 flex gap-2 lg:h-[400px] h-[240px] sm:h-[280px] md:h-[320px] w-full max-w-6xl mt-10 mx-auto overflow-x-auto scrollbar-hide snap-x snap-mandatory">
+      <div className="sm:px-5 px-2 flex gap-2 lg:h-[400px] h-[240px] sm:h-[280px] md:h-[320px] w-full max-w-7xl mt-10 mx-auto overflow-x-auto scrollbar-hide snap-x snap-mandatory">
         {categories.map((cat) => (
           <div
           key={cat.id}

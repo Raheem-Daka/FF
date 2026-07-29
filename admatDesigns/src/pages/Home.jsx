@@ -83,7 +83,7 @@ const Home = () => {
           <p className="text-center text-red-500 mt-10">{error}</p>
         ) : (
           <div className="p-5">
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-1 md:gap-2 lg:gap-3 max-w-5xl mx-auto">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-1 md:gap-2 lg:gap-3 lg:max-w-7xl mx-auto">
               {items.slice(0, 18).map((item) => (
                 <DesignCard
                   key={item.id}
@@ -119,7 +119,7 @@ const Home = () => {
         ) : error ? (
           <p className="text-center text-red-500 mt-10">{error}</p>
         ) : (
-          <div>
+          <div className="px-2 w-full">
             <CategoryLayout />
           </div>
         )}
@@ -133,8 +133,7 @@ const Home = () => {
           <p className="text-sm text-slate-500 text-center mt-2 max-w-lg mx-auto">
           A visual collection of our best selling works.
           </p>
-          <div className="w-full
-          ">
+          <div className="px-2 w-full">
             <OurPopularProducts />
           </div>
           <div className="py-10 flex justify-center">
