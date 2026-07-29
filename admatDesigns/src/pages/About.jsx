@@ -33,14 +33,14 @@ const About = () => {
       <main className="flex-grow px-6">
         <div className="max-w-5xl mx-auto text-center">
           <h1 className="text-4xl font-bold text-gray-800 mb-6">
-            About AdmatFurniture
+            About FooterFurniture
           </h1>
 
            <p
             className="text-gray-600 mb-10 cursor-pointer hover:text-blue-600"
             onClick={() =>
               handleClick(
-                "AdmatFurniture believes furniture is more than utility — it reflects lifestyle, taste, and comfort. Our mission is to craft modern, durable, and stylish pieces that transform houses into homes."
+                "FooterFurniture believes furniture is more than utility — it reflects lifestyle, taste, and comfort. Our mission is to craft modern, durable, and stylish pieces that transform houses into homes."
               )
             }
           >
@@ -54,7 +54,7 @@ const About = () => {
             {sections.map((section, idx) => (
               <p
                 key={idx}
-                className="border-2 text-orange-600 border-orange-600 hover:bg-orange-200 bg-orange-100 p-6 rounded-lg shadow hover:shadow-lg transition-transform ease-out cursor-pointer"
+                className="border-2 text-orange-600 border-orange-200 hover:bg-orange-200 bg-orange-100 p-6 rounded-lg shadow hover:shadow-lg transition-transform ease-out cursor-pointer"
                 onClick={() => handleClick(section.full)}
               >
                 <span className="text-xl text-orange-600 font-semibold text-gray-800 block mb-3">
@@ -74,11 +74,11 @@ const About = () => {
           </p>
 
         </div>
-        <div className="rounded bg-orange-200 py-10 w-full min-h-[70px] flex flex-col items-center justify-center lg:mt-20 sm:mt-10">
-           <h1 className="text-4xl font-bold text-gray-800 mb-6">
+        <div className="rounded py-10 w-full min-h-[70px] flex flex-col items-center justify-center lg:mt-20 sm:mt-10 space-y-2">
+           <h1 className="text-4xl bg-orange-100  font-bold text-gray-800 mx-auto w-full text-center py-4 rounded">
             Where to find us
           </h1>
-          <div className="w-full min-h-[50px] flex items-center justify-center rounded-lg overflow-hidden px-5">
+          <div className="w-full bg-orange-100 min-h-[50px] flex items-center justify-center rounded-lg overflow-hidden p-5">
             <iframe
               title="AdmatFurniture Location"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509374!2d144.953736315316!3d-37.81627977975195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0xf577d9a651e5e0!2sFederation%20Square%2C%20Melbourne%20VIC%203000%2C%20Australia!5e0!3m2!1sen!2sus!4v1618317045678!5m2!1sen!2sus"
