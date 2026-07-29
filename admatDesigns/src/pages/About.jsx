@@ -54,10 +54,10 @@ const About = () => {
             {sections.map((section, idx) => (
               <p
                 key={idx}
-                className="border hover:bg-slate-200 bg-slate-100 p-6 rounded-lg shadow hover:shadow-lg transition-transform ease-out cursor-pointer"
+                className="border-2 text-orange-600 border-orange-600 hover:bg-orange-200 bg-orange-100 p-6 rounded-lg shadow hover:shadow-lg transition-transform ease-out cursor-pointer"
                 onClick={() => handleClick(section.full)}
               >
-                <span className="text-xl font-semibold text-gray-800 block mb-3">
+                <span className="text-xl text-orange-600 font-semibold text-gray-800 block mb-3">
                   {section.title}
                 </span>
                 {section.preview}
@@ -74,7 +74,7 @@ const About = () => {
           </p>
 
         </div>
-        <div className="rounded bg-slate-200 py-10 w-full min-h-[70px] flex flex-col items-center justify-center lg:mt-20 sm:mt-10">
+        <div className="rounded bg-orange-200 py-10 w-full min-h-[70px] flex flex-col items-center justify-center lg:mt-20 sm:mt-10">
            <h1 className="text-4xl font-bold text-gray-800 mb-6">
             Where to find us
           </h1>
@@ -93,19 +93,65 @@ const About = () => {
 
       {/* Modal */}
       {modalOpen && (
-        <div className=" fixed inset-0 bg-black/70 bg-opacity-50 flex items-center justify-center z-50" >
-          <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-1/3 p-8 flex flex-col justify-between">
-            <h2 className="text-xl font-bold mb-4">More Information</h2>
-            <p className="text-gray-700 mb-6">{modalContent}</p>
+        <div
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+          //onClick={() => setModalOpen(false)}
+        >
+          <div
+            className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6 md:p-8 relative animate-[fadeIn_.3s_ease]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="border-b pb-4 mb-4">
+              <h2 className="text-2xl font-bold text-orange-600">
+                More Information
+              </h2>
+            </div>
+
+            {/* Content */}
+            <div className="max-h-80 overflow-y-auto">
+              <p className="text-gray-700 leading-relaxed">
+                {modalContent}
+              </p>
+            </div>
+
+            {/* Actions */}
+            <div className="flex justify-end mt-6">
+              <button
+                onClick={() => setModalOpen(false)}
+                className="
+                  bg-orange-600
+                  text-white
+                  px-5
+                  py-2
+                  rounded-lg
+                  font-medium
+                  hover:bg-orange-700
+                  transition-all
+                  duration-300
+                "
+              >
+                Close
+              </button>
+            </div>
+
+            {/* X Button */}
             <button
               onClick={() => setModalOpen(false)}
-              className="bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-500 transition"
+              className="
+                absolute
+                top-4
+                right-4
+                text-gray-500
+                hover:text-orange-600
+                text-xl
+              "
             >
-              Close
+              ✕
             </button>
           </div>
         </div>
-      )}
+      )}    
     </div>
   );
 };
