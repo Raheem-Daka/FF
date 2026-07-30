@@ -131,7 +131,9 @@ const Hero = () => {
 
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex flex-col items-center justify-center text-white p-2">
                     <p className="font-semibold text-center">{item.name}</p>
-                    <p className="text-sm mt-1">${item.current_price}</p>
+                    <p className="text-sm mt-1">
+                      MWK {Number(item.current_price).toLocaleString("en-US")}
+                    </p>
                   </div>
                 </div>
               ))}

@@ -43,7 +43,7 @@ const NewsLetterComponent = () => {
   };
 
   return (
-    <div className="bg-orange-100 rounded-xl lg:max-w-5xl w-full lg:mx-auto py-10 px-4">
+    <div className="bg-orange-100 rounded-xl lg:max-w-6xl w-full lg:mx-auto py-10 px-4">
       <section className="flex flex-col items-center">
 
         <div className="flex flex-col items-center">
@@ -79,7 +79,7 @@ const NewsLetterComponent = () => {
           <button
             onClick={handleSubscribe}
             disabled={loading}
-            className="w-full lg:w-auto rounded bg-orange-600 text-white h-11 px-5 flex items-center justify-center gap-2 transition hover:from-orange-700 hover:to-orange-900 active:scale-95 disabled:opacity-50"
+            className="w-full lg:min-w-[180px] lg:w-auto rounded bg-orange-600 text-white h-11 px-5 flex items-center justify-center gap-2 transition hover:from-orange-700 hover:to-orange-900 active:scale-95 disabled:opacity-50"
           >
             {loading ? (
               <>

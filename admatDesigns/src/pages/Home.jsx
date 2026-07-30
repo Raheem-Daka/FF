@@ -12,6 +12,7 @@ import OurPopularProducts from "../components/OurPopularProductsComponent";
 import NewsLetterComponent from "../components/NewsLetterComponent";
 import LoadingSkeleton from "../components/LoadingSkeleton";
 import { apiFetch } from "../api/api";
+import ScrollReveal from "../components/ScrollReveal";
 
 const Home = () => {
   const [items, setItems] = useState([]);
@@ -76,22 +77,25 @@ const Home = () => {
           <SearchComponent />
         </div>
 
-
+          
         {loading ? (
           <LoadingSkeleton />       
         ) : error ? (
           <p className="text-center text-red-500 mt-10">{error}</p>
         ) : (
+
           <div className="p-5">
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-1 md:gap-2 lg:gap-3 lg:max-w-7xl mx-auto">
-              {items.slice(0, 18).map((item) => (
-                <DesignCard
-                  key={item.id}
-                  item={item}
-                  onClick={handleCardClick}
-                />
-              ))}
-            </div>
+            <ScrollReveal>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-1 md:gap-2 lg:gap-3 lg:max-w-7xl mx-auto">
+                {items.slice(0, 18).map((item) => (
+                  <DesignCard
+                    key={item.id}
+                    item={item}
+                    onClick={handleCardClick}
+                  />
+                ))}
+              </div>
+            </ScrollReveal>
 
             <div className="flex justify-center py-10">
               <button
@@ -107,7 +111,9 @@ const Home = () => {
 
         {/* Discount slideshow (self‑contained) */}
         <section className="w-full my-10">
+        <ScrollReveal >
           <DiscountComponent />
+        </ScrollReveal>
         </section>
 
         {/* Category Section */}
@@ -120,12 +126,14 @@ const Home = () => {
           <p className="text-center text-red-500 mt-10">{error}</p>
         ) : (
           <div className="px-2 w-full">
-            <CategoryLayout />
+            <ScrollReveal >
+              <CategoryLayout />
+            </ScrollReveal>
           </div>
         )}
 
         {/*Popular Products */}
-        <div className="w-full py-10 bg-gray-50 my-10">
+        <div className="w-full py-10 bg-gradient-to-b from-gray-100 my-10">
           <h1 className="text-3xl font-semibold text-center">
           Our Most Popular Furniture
           </h1>
@@ -134,9 +142,10 @@ const Home = () => {
           A visual collection of our best selling works.
           </p>
           <div className="px-2 w-full">
-            <OurPopularProducts />
-          </div>
-          <div className="py-10 flex justify-center">
+            <ScrollReveal>
+              <OurPopularProducts />
+            </ScrollReveal>          </div>
+          <div className="py-5 flex justify-center">
             <button 
             onClick={handleNavigation}
             className="py-2 px-3 flex items-center gap-2 cursor-pointer rounded bg-orange-600 text-orange-100 transition hover:from-orange-700 hover:to-orange-900">
@@ -147,8 +156,10 @@ const Home = () => {
 
         </div>
 
-        <div className="mx-auto w-full flex justify-center">
-          <NewsLetterComponent />
+        <div className="">
+          <ScrollReveal>
+            <NewsLetterComponent />
+          </ScrollReveal>        
         </div>
       </section>
 

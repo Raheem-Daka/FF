@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { apiFetch } from "../api/api";
 import { FaUser, FaEnvelope } from "react-icons/fa";
-
-const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -23,18 +21,6 @@ const Contact = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: "" })); 
-  };
-
-  const validate = () => {
-    let newErrors = {};
-    if (!formData.name.trim()) newErrors.name = "Name is required";
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Email is invalid";
-    }
-    if (!formData.message.trim()) newErrors.message = "Message is required";
-    return newErrors;
   };
 
   const handleSubmit = async (e) => {
@@ -65,19 +51,49 @@ const Contact = () => {
       }
   };
 
-  useEffect(() => {
-    const fetchMessage = async () => {
-      try {
-        await apiFetch('/contact/', {
-          method: "POST",
-        });
-      } catch (error) {
-        console.error("Error fetching message:", error);
-      }
-    };
+  const blockedDomains = [
+    "tempmail.com",
+    "10minutemail.com",
+    "mailinator.com",
+    "guerrillamail.com",
+    "yopmail.com",
+    "dispostable.com",
+    "trashmail.com",
+    "fakeinbox.com",
+  ];
 
-    fetchMessage();
-  }, []);
+  const validate = () => {
+    let newErrors = {};
+
+    const emailRegex =
+      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/;
+
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!emailRegex.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+    } else {
+      const domain = formData.email
+        .split("@")[1]
+        ?.toLowerCase();
+
+      if (blockedDomains.includes(domain)) {
+        newErrors.email =
+          "Temporary email addresses are not allowed";
+      }
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = "Message is required";
+    }
+
+    return newErrors;
+  };
+
 
   return (
     <div className="pt-10 flex justify-center bg-white rounded-lg mx-4">
@@ -87,7 +103,7 @@ const Contact = () => {
             <p className="text-md bg-orange-200 text-orange-600 font-semibold px-3 py-1 rounded">Contact Us</p> 
             <h1 className="text-4xl font-semibold py-4 text-center">Let’s Get In Touch.</h1>
             <p className="max-md:text-sm text-gray-500 pb-10 text-center">
-                Or just reach out manually to us at <a href="#" className="text-orange-600 hover:underline">admin@admin.com</a>
+                Or just reach out manually to us at <a href="mailto:footerfurniture@gmail.com" className="text-orange-600 hover:underline">footerfurniture@gmail.com</a>
             </p>
           </div>
           <div>
@@ -100,6 +116,7 @@ const Contact = () => {
                 placeholder="Enter your full name"
                 value={formData.name}
                 onChange={handleChange}
+                disabled={sending}
                 className="bg-white h-full px-2 w-full outline-none bg-transparent py-2 focus:outline-none focus:ring-orange-300"
               />
             </div>
@@ -118,6 +135,7 @@ const Contact = () => {
                 placeholder="Enter your email"
                 value={formData.email}
                 onChange={handleChange}
+                disabled={sending}
                 className="bg-white h-full px-2 w-full outline-none bg-transparent py-2 focus:outline-none  focus:ring-orange-300"
               />
             </div>
@@ -133,6 +151,7 @@ const Contact = () => {
               placeholder="Tell us how we can help..."
               value={formData.message}
               onChange={handleChange}
+              disabled={sending}
               rows={5}
               className="bg-transparent w-full px-3 py-2 border border-orange-600 rounded-md resize-none outline-none focus:outline-none focus-within:ring-orange-400 focus:ring-orange-300 transition-all min-h-[100px]"
             />
@@ -151,7 +170,7 @@ const Contact = () => {
             }`}
           >
             {sending ? (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center justify-center">
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
               </div>
             ) : (
@@ -166,7 +185,7 @@ const Contact = () => {
             <FaCheckCircle className="text-green-500 text-5xl mx-auto mb-4" />
             <h2 className="text-xl font-bold mb-2 text-gray-800">Thank You!</h2>
             <p className="text-gray-600 mb-6">
-              Your message has been successfully submitted. We’ll get back to you soon.
+              Thank you for contacting Footer Furniture. We have received your message and will get back to you as soon as possible.
             </p>
             <button
               onClick={() => {
