@@ -1,20 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+User-agent: *
+Allow: /
 
-  <url>
-    <loc>https://rwdaka.pythonanywhere.com/</loc>
-  </url>
+Disallow: /admin
+Disallow: /api
+Disallow: /cart
+Disallow: /checkout
+Disallow: /orders
+Disallow: /order-details
+Disallow: /signin
+Disallow: /signup
+Disallow: /profile
 
-  <url>
-    <loc>https://rwdaka.pythonanywhere.com/popular-products</loc>
-  </url>
-
-  <url>
-    <loc>https://rwdaka.pythonanywhere.com/products/discounts</loc>
-  </url>
-
-  <url>
-    <loc>https://rwdaka.pythonanywhere.com/products</loc>
-  </url>
-
-</urlset>
+Sitemap: https://rwdaka.pythonanywhere.com/sitemap.xml
