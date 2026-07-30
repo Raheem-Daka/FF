@@ -102,9 +102,7 @@ const Contact = () => {
           <div className="text-center mb-6">
             <p className="text-md bg-orange-200 text-orange-600 font-semibold px-3 py-1 rounded">Contact Us</p> 
             <h1 className="text-4xl font-semibold py-4 text-center">Let’s Get In Touch.</h1>
-            <p className="max-md:text-sm text-gray-500 pb-10 text-center">
-                Or just reach out manually to us at <a href="mailto:footerfurniture@gmail.com" className="text-orange-600 hover:underline">footerfurniture@gmail.com</a>
-            </p>
+            
           </div>
           <div>
             <label className="block font-medium">Name</label>
@@ -177,6 +175,18 @@ const Contact = () => {
               "Submit"
             )}
           </button>
+
+            <div>
+              <div className="my-5 flex w-full items-center gap-4">
+                  <div className="h-px w-full bg-orange-300"></div>
+                  <p className="w-full text-sm text-nowrap text-gray-500 text-center">or</p>
+                  <div className="h-px w-full bg-orange-300"></div>
+              </div>
+            <p className="max-md:text-sm text-gray-500 pb-10 text-center">
+                Or just reach out manually to us at <a href="mailto:footerfurniture@gmail.com" className="text-orange-600 hover:underline">footerfurniture@gmail.com</a>
+            </p>
+
+            </div>
         </form>
 
       {submitted && (
