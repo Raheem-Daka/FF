@@ -1,4 +1,20 @@
-User-agent: *
-Allow: /
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-Sitemap: https://footerfurniture.com/sitemap.xml
+  <url>
+    <loc>https://rwdaka.pythonanywhere.com/</loc>
+  </url>
+
+  <url>
+    <loc>https://rwdaka.pythonanywhere.com/popular-products</loc>
+  </url>
+
+  <url>
+    <loc>https://rwdaka.pythonanywhere.com/products/discounts</loc>
+  </url>
+
+  <url>
+    <loc>https://rwdaka.pythonanywhere.com/products</loc>
+  </url>
+
+</urlset>
