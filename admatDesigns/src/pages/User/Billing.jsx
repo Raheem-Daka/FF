@@ -224,7 +224,7 @@ const Billing = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50 overflow-x-hidden">
+    <div className="flex min-h-screen text-sm bg-gray-50 overflow-x-hidden">
       <ProfileSidePanel />
 
       <div className="flex-1 p-6 transition-all duration-300">
@@ -234,7 +234,7 @@ const Billing = () => {
 
           <button
             onClick={openModal}
-            className="cursor-pointer rounded bg-linear-to-b from-orange-600 to-orange-800 text-orange-100 transition hover:from-orange-700 hover:to-orange-900 px-4 py-2"
+            className="cursor-pointer rounded bg-orange-600 text-orange-100 transition hover:from-orange-700 hover:to-orange-900 px-4 py-2"
           >
             + Add Card
           </button>
@@ -248,8 +248,8 @@ const Billing = () => {
             </div>
 
           ) :  cards.length === 0 ? (
-            <div className="flex flex-col justify-center text-gray-500 py-10">
-              <p className="flex items-center gap-2"><FaCreditCard />No cards yet 💳</p>
+            <div className="text-center text-gray-500 py-10">
+              <p className="flex items-center justify-center gap-2">No cards yet<FaCreditCard /></p>
               <p className="text-sm">Click "Add Card" to get started</p>
             </div>
           ) : ( 

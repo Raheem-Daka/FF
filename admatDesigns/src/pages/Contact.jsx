@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { apiFetch } from "../api/api";
 import { FaUser, FaEnvelope } from "react-icons/fa";
+import { Helmet } from "react-helmet-async";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -96,120 +97,130 @@ const Contact = () => {
 
 
   return (
-    <div className="pt-10 flex justify-center bg-white rounded-lg mx-4">
-        {/*Form */}
-        <form onSubmit={handleSubmit} className="xl:min-w-3xl lg:min-w-2xl md:min-w-xl items-center text-sm text-slate-80 mx-auto">
-          <div className="text-center mb-6">
-            <p className="text-md bg-orange-200 text-orange-600 font-semibold px-3 py-1 rounded">Contact Us</p> 
-            <h1 className="text-4xl font-semibold py-4 text-center">Let’s Get In Touch.</h1>
-            
-          </div>
-          <div>
-            <label className="block font-medium">Name</label>
-            <div className="flex items-center mt-2 mb-4 h-10 pl-3 border border-orange-600 rounded focus-within:ring-2 focus-within:ring-orange-400 transition-all overflow-hidden">
-              <FaUser className="text-orange-600 mr-2" />              
-              <input
-                type="text"
-                name="name"
-                placeholder="Enter your full name"
-                value={formData.name}
-                onChange={handleChange}
-                disabled={sending}
-                className="bg-white h-full px-2 w-full outline-none bg-transparent py-2 focus:outline-none focus:ring-orange-300"
-              />
+    <>
+      <Helmet>
+        <title>Contact Us | Footer Furniture</title>
+
+        <meta
+          name="description"
+          content="Contact Footer Furniture for custom furniture, quotes and enquiries."
+        />
+      </Helmet>
+      <div className="pt-10 flex justify-center bg-white rounded-lg mx-4">
+          {/*Form */}
+          <form onSubmit={handleSubmit} className="xl:min-w-3xl lg:min-w-2xl md:min-w-xl items-center text-sm text-slate-80 mx-auto">
+            <div className="text-center mb-6">
+              <p className="text-md bg-orange-200 text-orange-600 font-semibold px-3 py-1 rounded">Contact Us</p> 
+              <h1 className="text-4xl font-semibold py-4 text-center">Let’s Get In Touch.</h1>
+              
             </div>
-            {errors.name && (
-              <span className="bg-red-600 rounded mt-2 text-white p-1 text-sm">{errors.name}</span>
-            )}
-          </div>
-
-          <div>
-            <label className="block font-medium">Email</label>
-            <div className="flex items-center mt-2 mb-4 h-10 pl-3 border border-orange-600 rounded focus-within:ring-2 focus-within:ring-orange-400 transition-all overflow-hidden">
-              <FaEnvelope className="text-orange-600 mr-2" />
-              <input
-                type="email"
-                name="email"
-                placeholder="Enter your email"
-                value={formData.email}
-                onChange={handleChange}
-                disabled={sending}
-                className="bg-white h-full px-2 w-full outline-none bg-transparent py-2 focus:outline-none  focus:ring-orange-300"
-              />
-            </div>
-            {errors.email && (
-              <span className="bg-red-600 rounded mt-2 text-white p-1 text-sm">{errors.email}</span>
-            )}
-          </div>
-
-          <div className="">
-            <label className="block font-medium">Message</label>
-            <textarea
-              name="message"
-              placeholder="Tell us how we can help..."
-              value={formData.message}
-              onChange={handleChange}
-              disabled={sending}
-              rows={5}
-              className="bg-transparent w-full px-3 py-2 border border-orange-600 rounded-md resize-none outline-none focus:outline-none focus-within:ring-orange-400 focus:ring-orange-300 transition-all min-h-[100px]"
-            />
-            {errors.message && (
-              <span className="bg-red-600 rounded mt-2 text-white p-1 text-sm">{errors.message}</span>
-            )}
-          </div>
-
-          <button
-            disabled={sending}
-            type="submit"
-            className={`flex items-center justify-center mt-5 py-2.5 w-full rounded transition ${
-              sending
-                ? "bg-orange-600/80 text-white cursor-not-allowed"
-                : "bg-orange-600 text-white cursor-pointer"
-            }`}
-          >
-            {sending ? (
-              <div className="flex items-center justify-center">
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            <div>
+              <label className="block font-medium">Name</label>
+              <div className="flex items-center mt-2 mb-4 h-10 pl-3 border border-orange-600 rounded focus-within:ring-2 focus-within:ring-orange-400 transition-all overflow-hidden">
+                <FaUser className="text-orange-600 mr-2" />              
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Enter your full name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  disabled={sending}
+                  className="bg-white h-full px-2 w-full outline-none bg-transparent py-2 focus:outline-none focus:ring-orange-300"
+                />
               </div>
-            ) : (
-              "Submit"
-            )}
-          </button>
+              {errors.name && (
+                <span className="bg-red-600 rounded mt-2 text-white p-1 text-sm">{errors.name}</span>
+              )}
+            </div>
 
             <div>
-              <div className="my-5 flex w-full items-center gap-4">
-                  <div className="h-px w-full bg-orange-300"></div>
-                  <p className="w-full text-sm text-nowrap text-gray-500 text-center">or</p>
-                  <div className="h-px w-full bg-orange-300"></div>
+              <label className="block font-medium">Email</label>
+              <div className="flex items-center mt-2 mb-4 h-10 pl-3 border border-orange-600 rounded focus-within:ring-2 focus-within:ring-orange-400 transition-all overflow-hidden">
+                <FaEnvelope className="text-orange-600 mr-2" />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  disabled={sending}
+                  className="bg-white h-full px-2 w-full outline-none bg-transparent py-2 focus:outline-none  focus:ring-orange-300"
+                />
               </div>
-            <p className="max-md:text-sm text-gray-500 pb-10 text-center">
-                Or just reach out manually to us at <a href="mailto:footerfurniture@gmail.com" className="text-orange-600 hover:underline">footerfurniture@gmail.com</a>
-            </p>
-
+              {errors.email && (
+                <span className="bg-red-600 rounded mt-2 text-white p-1 text-sm">{errors.email}</span>
+              )}
             </div>
-        </form>
 
-      {submitted && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl shadow-2xl flex flex-col items-center justify-center text-center max-w-md w-full p-8">
-            <FaCheckCircle className="text-green-500 text-5xl mx-auto mb-4" />
-            <h2 className="text-xl font-bold mb-2 text-gray-800">Thank You!</h2>
-            <p className="text-gray-600 mb-6">
-              Thank you for contacting Footer Furniture. We have received your message and will get back to you as soon as possible.
-            </p>
+            <div className="">
+              <label className="block font-medium">Message</label>
+              <textarea
+                name="message"
+                placeholder="Tell us how we can help..."
+                value={formData.message}
+                onChange={handleChange}
+                disabled={sending}
+                rows={5}
+                className="bg-transparent w-full px-3 py-2 border border-orange-600 rounded-md resize-none outline-none focus:outline-none focus-within:ring-orange-400 focus:ring-orange-300 transition-all min-h-[100px]"
+              />
+              {errors.message && (
+                <span className="bg-red-600 rounded mt-2 text-white p-1 text-sm">{errors.message}</span>
+              )}
+            </div>
+
             <button
-              onClick={() => {
-                setSubmitted(false);
-                navigate("/");
-              }}
-              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+              disabled={sending}
+              type="submit"
+              className={`flex items-center justify-center mt-5 py-2.5 w-full rounded transition ${
+                sending
+                  ? "bg-orange-600/80 text-white cursor-not-allowed"
+                  : "bg-orange-600 text-white cursor-pointer"
+              }`}
             >
-              Close
+              {sending ? (
+                <div className="flex items-center justify-center">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                </div>
+              ) : (
+                "Submit"
+              )}
             </button>
+
+              <div>
+                <div className="my-5 flex w-full items-center gap-4">
+                    <div className="h-px w-full bg-orange-300"></div>
+                    <p className="w-full text-sm text-nowrap text-gray-500 text-center">or</p>
+                    <div className="h-px w-full bg-orange-300"></div>
+                </div>
+              <p className="max-md:text-sm text-gray-500 pb-10 text-center">
+                  Or just reach out manually to us at <a href="mailto:footerfurniture@gmail.com" className="text-orange-600 hover:underline">footerfurniture@gmail.com</a>
+              </p>
+
+              </div>
+          </form>
+
+        {submitted && (
+          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50">
+            <div className="bg-white rounded-2xl shadow-2xl flex flex-col items-center justify-center text-center max-w-md w-full p-8">
+              <FaCheckCircle className="text-green-500 text-5xl mx-auto mb-4" />
+              <h2 className="text-xl font-bold mb-2 text-gray-800">Thank You!</h2>
+              <p className="text-gray-600 mb-6">
+                Thank you for contacting Footer Furniture. We have received your message and will get back to you as soon as possible.
+              </p>
+              <button
+                onClick={() => {
+                  setSubmitted(false);
+                  navigate("/");
+                }}
+                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+              >
+                Close
+              </button>
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 };
 

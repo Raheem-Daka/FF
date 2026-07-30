@@ -6,7 +6,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import placeHolder from "../../assets/placeHolder.png";
 import { apiFetch } from "../../api/api";
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL;
+//const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 const OrderDetails = () => {
   const { id } = useParams();
@@ -98,10 +98,6 @@ const OrderDetails = () => {
     }
   };
 
-  const openModal = () => {
-    setIsOpen(true);
-  }
-
   useEffect(() => {
     return () => {
       if (timeoutRef.current) {
@@ -112,7 +108,7 @@ const OrderDetails = () => {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center py-10">
+      <div className="flex flex-col items-center justify-center py-10 text-sm">
         <div className="w-10 h-10 border-4 border-orange-600 border-t-transparent rounded-full animate-spin"></div>
         <p className="mt-3 text-gray-500">Loading order...</p>
       </div>
@@ -134,181 +130,184 @@ const OrderDetails = () => {
   }[normalizedStatus] || "text-gray-600";
 
   return (
-    <div className="lg:max-w-5xl mx-auto p-6 text-sm">
-      <button
-        onClick={() => navigate("/orders")}
-        className="mb-4 cursor-pointer rounded bg-orange-600 text-orange-100 transition hover:from-orange-700 hover:to-orange-900 gap-1 p-2 flex items-center"
-      >
-        <FaArrowLeft />
-        Back to Orders
-      </button>
+    <>
+    
+      <div className="lg:max-w-5xl mx-auto p-6 text-sm">
+        <button
+          onClick={() => navigate("/orders")}
+          className="mb-4 cursor-pointer rounded bg-orange-600 text-orange-100 transition hover:from-orange-700 hover:to-orange-900 gap-1 p-2 flex items-center"
+        >
+          <FaArrowLeft />
+          Back to Orders
+        </button>
 
-      <h1 className="text-3xl font-bold mb-6">Order #{order.id}</h1>
+        <h1 className="text-3xl font-bold mb-6">Order #{order.id}</h1>
 
-      {/* Order Meta */}
-      <div className="mb-6 space-y-1">
-        <p>
-          Status:{" "}
-          <span className={`font-semibold ${statusColor}`}>
-            {order.status}
-          </span>
-        </p>
-        <p className="text-gray-500">
-          Placed on: {new Date(order.created_at).toLocaleDateString()}
-        </p>
-        <div className="flex gap-2 mt-3">
-          <button
-            onClick={() => navigate(`/orders-tracking?order=${order.id}`)}
-            className="px-4 py-2 cursor-pointer rounded bg-orange-600 text-orange-100 transition hover:from-orange-700 hover:to-orange-900 transition"
-          >
-            Track Order
-          </button>
-          {normalizedStatus !== "delivered" && normalizedStatus !== "cancelled" && (
+        {/* Order Meta */}
+        <div className="mb-6 space-y-1">
+          <p>
+            Status:{" "}
+            <span className={`font-semibold ${statusColor}`}>
+              {order.status}
+            </span>
+          </p>
+          <p className="text-gray-500">
+            Placed on: {new Date(order.created_at).toLocaleDateString()}
+          </p>
+          <div className="flex gap-2 mt-3">
             <button
-              onClick={() => {
-                setShowModal(true);
-              }}
-              className="ml-2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+              onClick={() => navigate(`/orders-tracking?order=${order.id}`)}
+              className="px-4 py-2 cursor-pointer rounded bg-orange-600 text-orange-100 transition hover:from-orange-700 hover:to-orange-900 transition"
             >
-              Cancel Order
+              Track Order
             </button>
-          )}
-        </div>
-      </div>
-
-        {/* DELETE CONFIRMATION MODAL */}
-        {showModal && (
-          <div className="fixed inset-0 bg-black/50 flex justify-center items-center backdrop-blur-sm z-50">
-          <div className="bg-white shadow-md rounded-xl py-6 px-5 md:w-[460px] w-[370px]">
-               {/* Icon */}
-               <div className="flex items-center justify-center p-4 bg-red-100 rounded-full w-16 h-16 mx-auto">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2.875 5.75h1.917m0 0h15.333m-15.333 0v13.417a1.917 1.917 0 0 0 1.916 1.916h9.584a1.917 1.917 0 0 0 1.916-1.916V5.75m-10.541 0V3.833a1.917 1.917 0 0 1 1.916-1.916h3.834a1.917 1.917 0 0 1 1.916 1.916V5.75m-5.75 4.792v5.75m3.834-5.75v5.75" stroke="#DC2626" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-
-              {/* Title */}
-              <h2 className="text-gray-900 text-center font-semibold mt-4 text-xl">Are you sure?
-              </h2>
-
-              {/* Description */}
-              <p className="text-sm text-gray-600 mt-2 text-center">
-                Do you really want to cancel order  
-                <span className="text-red-500 font-bold"> # {order?.id} </span>with items: <span className="font-semibold text-red-500">
-                  <ul className="my-2 inline-block text-left">
-                    {order.items.length <= 3 ? (
-                      order.items.map(item => (
-                        <li key={item.id}>{item.item_name}</li>
-                      ))
-                    ) : (
-                      <li>{order.items[0].item_name} and {order.items.length - 1} more...</li>
-                    )}
-                  </ul>
-                  </span>
-                  <br/> 
-                <span>This action cannot be undone.</span>
-              </p>
-
-              {/* Buttons */}
-              <div className="flex items-center justify-center gap-4 mt-5 w-full">
-                <button
-                  onClick={() => {
-                    setShowModal(false);
-                  }}
-                  className="w-full md:w-36 h-10 rounded-md border border-gray-300 bg-white text-gray-600 font-medium text-sm hover:bg-gray-100 active:scale-95 transition"
-                >
-                  Cancel
-                </button>
-
-                <button
-                  onClick={() => {
-                    cancelOrder();
-                    setShowModal(false);
-                  }}
-                  disabled={cancelling}
-                  className="w-full md:w-36 h-10 rounded-md text-white bg-red-600 font-medium text-sm hover:bg-red-700 active:scale-95 transition"
-                >
-                  Yes, Remove
-                </button>
-              </div>
+            {normalizedStatus !== "delivered" && normalizedStatus !== "cancelled" && (
+              <button
+                onClick={() => {
+                  setShowModal(true);
+                }}
+                className="ml-2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+              >
+                Cancel Order
+              </button>
+            )}
           </div>
         </div>
-        )}
+
+          {/* DELETE CONFIRMATION MODAL */}
+          {showModal && (
+            <div className="fixed inset-0 bg-black/50 flex justify-center items-center backdrop-blur-sm z-50">
+            <div className="bg-white shadow-md rounded-xl py-6 px-5 md:w-[460px] w-[370px]">
+                {/* Icon */}
+                <div className="flex items-center justify-center p-4 bg-red-100 rounded-full w-16 h-16 mx-auto">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M2.875 5.75h1.917m0 0h15.333m-15.333 0v13.417a1.917 1.917 0 0 0 1.916 1.916h9.584a1.917 1.917 0 0 0 1.916-1.916V5.75m-10.541 0V3.833a1.917 1.917 0 0 1 1.916-1.916h3.834a1.917 1.917 0 0 1 1.916 1.916V5.75m-5.75 4.792v5.75m3.834-5.75v5.75" stroke="#DC2626" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+
+                {/* Title */}
+                <h2 className="text-gray-900 text-center font-semibold mt-4 text-xl">Are you sure?
+                </h2>
+
+                {/* Description */}
+                <p className="text-sm text-gray-600 mt-2 text-center">
+                  Do you really want to cancel order  
+                  <span className="text-red-500 font-bold"> # {order?.id} </span>with items: <span className="font-semibold text-red-500">
+                    <ul className="my-2 inline-block text-left">
+                      {order.items.length <= 3 ? (
+                        order.items.map(item => (
+                          <li key={item.id}>{item.item_name}</li>
+                        ))
+                      ) : (
+                        <li>{order.items[0].item_name} and {order.items.length - 1} more...</li>
+                      )}
+                    </ul>
+                    </span>
+                    <br/> 
+                  <span>This action cannot be undone.</span>
+                </p>
+
+                {/* Buttons */}
+                <div className="flex items-center justify-center gap-4 mt-5 w-full">
+                  <button
+                    onClick={() => {
+                      setShowModal(false);
+                    }}
+                    className="w-full md:w-36 h-10 rounded-md border border-gray-300 bg-white text-gray-600 font-medium text-sm hover:bg-gray-100 active:scale-95 transition"
+                  >
+                    Cancel
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      cancelOrder();
+                      setShowModal(false);
+                    }}
+                    disabled={cancelling}
+                    className="w-full md:w-36 h-10 rounded-md text-white bg-red-600 font-medium text-sm hover:bg-red-700 active:scale-95 transition"
+                  >
+                    Yes, Remove
+                  </button>
+                </div>
+            </div>
+          </div>
+          )}
 
 
-      {/* MINI PROGRESS BAR */}
-      <div className="flex items-center gap-2 mt-2 mb-2">
-        {statusSteps.map((step, index) => (
-          <div key={step} className="flex items-center">
+        {/* MINI PROGRESS BAR */}
+        <div className="flex items-center gap-2 mt-2 mb-2">
+          {statusSteps.map((step, index) => (
+            <div key={step} className="flex items-center">
 
-            <div
-              className={`w-3 h-3 rounded-full ${
-                index <= currentIndex ? "bg-indigo-600" : "bg-gray-300"
-              }`}
-            />
-
-            {index < statusSteps.length - 1 && (
               <div
-                className={`w-6 h-1 ${
-                  index < currentIndex ? "bg-indigo-600" : "bg-gray-300"
+                className={`w-3 h-3 rounded-full ${
+                  index <= currentIndex ? "bg-indigo-600" : "bg-gray-300"
                 }`}
               />
-            )}
 
-          </div>
-        ))}
-      </div>
+              {index < statusSteps.length - 1 && (
+                <div
+                  className={`w-6 h-1 ${
+                    index < currentIndex ? "bg-indigo-600" : "bg-gray-300"
+                  }`}
+                />
+              )}
 
-      {/* ✅ ETA GOES HERE */}
-      {order.estimated_delivery && timeLeft?.total > 0 && (
-        <p className="text-sm text-indigo-600 mt-1">
-          Delivery in: {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m
-        </p>
-      )}
+            </div>
+          ))}
+        </div>
 
-      {/* Items */}
-      <div className="border border-gray-300 rounded-xl p-4 bg-white shadow-sm mb-6">
-        <h2 className="text-xl font-semibold mb-4">Items</h2>
+        {/* ✅ ETA GOES HERE */}
+        {order.estimated_delivery && timeLeft?.total > 0 && (
+          <p className="text-sm text-indigo-600 mt-1">
+            Delivery in: {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m
+          </p>
+        )}
 
-        {order.items.map((item) => (
-          <div
-            key={item.id}
-            className="flex justify-between border-b py-3 last:border-0"
-          >
-            <div>
-                <img 
-                src={item.item_image || placeHolder } 
-                alt=""
-                className="w-14 h-14 object-cover rounded object-center object-cover" />
-                <p className="font-medium">{item.item_name}</p>
-                <p className="text-sm text-gray-500">
-                    Quantity: {item.quantity}
+        {/* Items */}
+        <div className="border border-gray-300 rounded-xl p-4 bg-white shadow-sm mb-6">
+          <h2 className="text-xl font-semibold mb-4">Items</h2>
+
+          {order.items.map((item) => (
+            <div
+              key={item.id}
+              className="flex justify-between border-b py-3 last:border-0"
+            >
+              <div>
+                  <img 
+                  src={item.item_image || placeHolder } 
+                  alt=""
+                  className="w-14 h-14 object-cover rounded object-center object-cover" />
+                  <p className="font-medium">{item.item_name}</p>
+                  <p className="text-sm text-gray-500">
+                      Quantity: {item.quantity}
+                </p>
+              </div>
+              <p className="font-semibold">
+                MWK {Number(item.subtotal).toLocaleString()}
               </p>
             </div>
-            <p className="font-semibold">
-              MWK {Number(item.subtotal).toLocaleString()}
-            </p>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      {/* Summary */}
-      <div className="border border-gray-300 rounded-xl p-4 bg-white shadow-sm">
-        <div className="flex justify-between mb-2">
-          <span>Subtotal</span>
-          <span>MWK {Number(order.subtotal).toLocaleString()}</span>
-        </div>
-        <div className="flex justify-between mb-2">
-          <span>Delivery</span>
-          <span>MWK {Number(order.delivery_fee).toLocaleString()}</span>
-        </div>
-        <hr className="my-2 text-gray-300" />
-        <div className="flex justify-between font-bold text-lg">
-          <span>Total</span>
-          <span>MWK {Number(order.total).toLocaleString()}</span>
+        {/* Summary */}
+        <div className="border border-gray-300 rounded-xl p-4 bg-white shadow-sm">
+          <div className="flex justify-between mb-2">
+            <span>Subtotal</span>
+            <span>MWK {Number(order.subtotal).toLocaleString()}</span>
+          </div>
+          <div className="flex justify-between mb-2">
+            <span>Delivery</span>
+            <span>MWK {Number(order.delivery_fee).toLocaleString()}</span>
+          </div>
+          <hr className="my-2 text-gray-300" />
+          <div className="flex justify-between font-bold text-lg">
+            <span>Total</span>
+            <span>MWK {Number(order.total).toLocaleString()}</span>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

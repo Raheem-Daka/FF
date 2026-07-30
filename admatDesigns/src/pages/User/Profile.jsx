@@ -257,9 +257,9 @@ const Profile = () => {
 
   return (
 
-    <div className="flex min-h-screen overflow-x-hidden">
+    <div className="flex min-h-screen text-sm overflow-x-hidden">
         <ProfileSidePanel />      
-      <div className="flex-1 p-6 transition-all duration-300">
+      <div className="flex-1 py-6 transition-all duration-300">
         <div className="rounded lg:max-w-4xl mx-auto p-6">
           {loading ? (
             <div className="flex flex-col items-center justify-center py-20 h-screen">

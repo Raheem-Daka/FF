@@ -336,7 +336,7 @@ const Payments = () => {
         <button
           onClick={handlePayment}
           disabled={processing}
-          className="w-full bg-gradient-to-t from-orange-600 via-orange-400 to-orange-300 to hover:bg-indigo-700 text-white py-4 rounded-2xl font-semibold transition disabled:opacity-50"
+          className="w-full bg-orange-600 to hover:bg-orange-700 text-white py-2 rounded font-semibold transition disabled:opacity-50"
         >
           {processing ? "Processing Payment..." : "Pay Now"}
         </button>

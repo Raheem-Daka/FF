@@ -169,7 +169,7 @@ const DashboardPage = () => {
   );
 
   return (
-    <div className="flex min-h-screen overflow-x-hidden">
+    <div className="flex min-h-screen text-sm overflow-x-hidden">
       <ProfileSidePanel />
 
       <div className="flex-1 p-6 transition-all duration-300">

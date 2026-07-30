@@ -1,10 +1,9 @@
 import { useEffect, useState, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useAuth } from "../../utils/AuthContext";
 import { apiFetch } from "../../api/api";
 import { FaChevronDown } from "react-icons/fa";
-
 
   const Checkout = () => {
     const [cart, setCart] = useState(null);
@@ -73,7 +72,7 @@ import { FaChevronDown } from "react-icons/fa";
           }
         );
 
-        toast.success("Order placed successfully ✅");
+        toast.success("Order placed successfully");
         navigate("/orders");
 
       } else {
@@ -275,7 +274,6 @@ import { FaChevronDown } from "react-icons/fa";
 
   return (
     <>
-
       {Array.isArray(addresses) && addresses.length === 0 && (
         <div className="p-4 border text-sm rounded bg-yellow-50 text-center">
           <p className="mb-2 text-gray-600">

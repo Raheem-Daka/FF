@@ -210,10 +210,10 @@ const Settings = () => {
   };
 
   return (
-    <div className="flex min-h-screen overflow-x-hidden">
+    <div className="flex min-h-screen text-sm overflow-x-hidden">
       <ProfileSidePanel />
 
-      <div className="flex-1 p-6 max-w-4xl mx-auto">
+      <div className="flex-1 py-6 max-w-4xl mx-auto">
         {/* HEADER */}
         <div>
           <h1 className="text-3xl font-bold text-gray-800">Settings</h1>

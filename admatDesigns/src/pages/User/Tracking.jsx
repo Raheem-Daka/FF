@@ -216,7 +216,7 @@ const Tracking = () => {
   }, []);
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen text-sm">
       <ProfileSidePanel />
 
       <main className="flex-1 p-6 transition-all duration-300">

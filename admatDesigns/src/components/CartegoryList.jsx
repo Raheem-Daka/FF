@@ -40,6 +40,7 @@ const CategoryList = ({ basePath= "/products" }) => {
 
     return `${basePath}?${params.toString()}`;
   };
+  
   return (
     <section className="">
       <h2 className="text-lg font-semibold mb-3">Shop by Category</h2>

@@ -13,6 +13,7 @@ import NewsLetterComponent from "../components/NewsLetterComponent";
 import LoadingSkeleton from "../components/LoadingSkeleton";
 import { apiFetch } from "../api/api";
 import ScrollReveal from "../components/ScrollReveal";
+import { Helmet } from "react-helmet-async";
 
 const Home = () => {
   const [items, setItems] = useState([]);
@@ -62,108 +63,133 @@ const Home = () => {
     navigate("/products")
   }
   return (
-    <div className="w-full text-sm">
-      <Hero />
+    <>
+      <Helmet>
+        <title>Footer Furniture | Quality Furniture in Malawi</title>
 
-      {/* ✅ Products section */}
-      <section className="border border-slate-100 pb-5 w-full">
-        <h1 
-        id="products" 
-        className="text-4xl font-semibold text-center pt-5">
-          All Our Featured Products
-        </h1>
+        <meta
+          name="description"
+          content="Browse quality sofas, beds, wardrobes, dining tables and office furniture at Footer Furniture."
+        />
 
-        <div className="text-center sticky bg-white top-0 py-1 w-full z-[500]">
-          <SearchComponent />
-        </div>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FurnitureStore",
+            name: "Footer Furniture",
+            url: "https://footerfurniture.com",
+            telephone: "+265999999999",
+            address: {
+              "@type": "PostalAddress",
+              addressCountry: "MW"
+            }
+          })}
+        </script>
+  
+      </Helmet>
+      <div className="w-full text-sm">
+        <Hero />
 
-          
-        {loading ? (
-          <LoadingSkeleton />       
-        ) : error ? (
-          <p className="text-center text-red-500 mt-10">{error}</p>
-        ) : (
-
-          <div className="p-5">
-            <ScrollReveal>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-1 md:gap-2 lg:gap-3 lg:max-w-7xl mx-auto">
-                {items.slice(0, 18).map((item) => (
-                  <DesignCard
-                    key={item.id}
-                    item={item}
-                    onClick={handleCardClick}
-                  />
-                ))}
-              </div>
-            </ScrollReveal>
-
-            <div className="flex justify-center py-10">
-              <button
-                onClick={handleNavProducts}
-                className="flex items-center gap-2 justify-center cursor-pointer rounded bg-orange-600 text-orange-100 transition hover:bg-orange-900 px-3 py-2"
-              >
-                View All
-                <FaArrowRight />
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Discount slideshow (self‑contained) */}
-        <section className="w-full my-10">
-        <ScrollReveal >
-          <DiscountComponent />
-        </ScrollReveal>
-        </section>
-
-        {/* Category Section */}
-      {loading ? (
-          <div className="flex flex-col items-center justify-center w-full py-10">
-            <div className="w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
-            <p className="mt-3 text-gray-500">Loading categories...</p>
-          </div>        
-        ) : error ? (
-          <p className="text-center text-red-500 mt-10">{error}</p>
-        ) : (
-          <div className="px-2 w-full">
-            <ScrollReveal >
-              <CategoryLayout />
-            </ScrollReveal>
-          </div>
-        )}
-
-        {/*Popular Products */}
-        <div className="w-full py-10 bg-gradient-to-b from-gray-100 my-10">
-          <h1 className="text-3xl font-semibold text-center">
-          Our Most Popular Furniture
+        {/* ✅ Products section */}
+        <section className="border border-slate-100 pb-5 w-full">
+          <h1 
+          id="products" 
+          className="text-4xl font-semibold text-center pt-5">
+            All Our Featured Products
           </h1>
 
-          <p className="text-sm text-slate-500 text-center mt-2 max-w-lg mx-auto">
-          A visual collection of our best selling works.
-          </p>
-          <div className="px-2 w-full">
-            <ScrollReveal>
-              <OurPopularProducts />
-            </ScrollReveal>          </div>
-          <div className="py-5 flex justify-center">
-            <button 
-            onClick={handleNavigation}
-            className="py-2 px-3 flex items-center gap-2 cursor-pointer rounded bg-orange-600 text-orange-100 transition hover:from-orange-700 hover:to-orange-900">
-                View all
-                <FaArrowRight />
-            </button>
+          <div className="text-center sticky bg-white top-0 py-1 w-full z-[500]">
+            <SearchComponent />
           </div>
 
-        </div>
+            
+          {loading ? (
+            <LoadingSkeleton />       
+          ) : error ? (
+            <p className="text-center text-red-500 mt-10">{error}</p>
+          ) : (
 
-        <div className="">
-          <ScrollReveal>
-            <NewsLetterComponent />
-          </ScrollReveal>        
-        </div>
-      </section>
+            <div className="p-5">
+              <ScrollReveal>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-1 md:gap-2 lg:gap-3 lg:max-w-7xl mx-auto">
+                  {items.slice(0, 18).map((item) => (
+                    <DesignCard
+                      key={item.id}
+                      item={item}
+                      onClick={handleCardClick}
+                    />
+                  ))}
+                </div>
+              </ScrollReveal>
 
-    </div>
+              <div className="flex justify-center py-10">
+                <button
+                  onClick={handleNavProducts}
+                  className="flex items-center gap-2 justify-center cursor-pointer rounded bg-orange-600 text-orange-100 transition hover:bg-orange-900 px-3 py-2"
+                >
+                  View All
+                  <FaArrowRight />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Discount slideshow (self‑contained) */}
+          <section className="w-full my-10">
+          <ScrollReveal >
+            <DiscountComponent />
+          </ScrollReveal>
+          </section>
+
+          {/* Category Section */}
+        {loading ? (
+            <div className="flex flex-col items-center justify-center w-full py-10">
+              <div className="w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
+              <p className="mt-3 text-gray-500">Loading categories...</p>
+            </div>        
+          ) : error ? (
+            <p className="text-center text-red-500 mt-10">{error}</p>
+          ) : (
+            <div className="px-2 w-full">
+              <ScrollReveal >
+                <CategoryLayout />
+              </ScrollReveal>
+            </div>
+          )}
+
+          {/*Popular Products */}
+          <div className="w-full py-10 bg-gradient-to-b from-gray-100 my-10">
+            <h1 className="text-3xl font-semibold text-center">
+            Our Most Popular Furniture
+            </h1>
+
+            <p className="text-sm text-slate-500 text-center mt-2 max-w-lg mx-auto">
+            A visual collection of our best selling works.
+            </p>
+            <div className="px-2 w-full">
+              <ScrollReveal>
+                <OurPopularProducts />
+              </ScrollReveal>          </div>
+            <div className="py-5 flex justify-center">
+              <button 
+              onClick={handleNavigation}
+              className="py-2 px-3 flex items-center gap-2 cursor-pointer rounded bg-orange-600 text-orange-100 transition hover:from-orange-700 hover:to-orange-900">
+                  View all
+                  <FaArrowRight />
+              </button>
+            </div>
+
+          </div>
+
+          <div className="">
+            <ScrollReveal>
+              <NewsLetterComponent />
+            </ScrollReveal>        
+          </div>
+        </section>
+
+      </div>
+    </>
   );
 };
 
