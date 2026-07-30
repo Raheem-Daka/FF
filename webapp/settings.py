@@ -187,7 +187,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
-    BASE_DIR / 'admatDesigns' / 'dist',
+    BASE_DIR / 'futureFurniture' / 'dist',
 ]
 
 MEDIA_URL = '/media/'
