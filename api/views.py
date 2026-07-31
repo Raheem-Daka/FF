@@ -170,10 +170,7 @@ def honeypot_admin_login(request):
                         Log in
                     </button>
                 </form>
-
             </div>
-
         </body>
     </html>
     """)
-
