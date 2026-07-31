@@ -4,5 +4,6 @@ from api.views import frontend
 
 urlpatterns = [
     path('', views.home, name='home'),
+    
 
 ]
