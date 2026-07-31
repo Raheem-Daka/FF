@@ -63,10 +63,23 @@
   </url>
 
   <url>
+    <loc>https://rwdaka.pythonanywhere.com/product/1/3-set-sofa</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  <url/>
+
+  <url>
+  <loc>https://rwdaka.pythonanywhere.com/products/discounts?min_price=0&max_price=2000000</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
     <loc>https://rwdaka.pythonanywhere.com/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
+
 
   <url>
     <loc>https://rwdaka.pythonanywhere.com/contact</loc>
