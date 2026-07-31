@@ -3,12 +3,22 @@ from django.urls import path, include, re_path
 from django.conf.urls.static import static
 from django.conf import settings
 from api.views import frontend, honeypot_admin_login
+from django.views.generic import RedirectView
 
 urlpatterns = [
     path('', frontend, name='frontend'),
 
     path("admin/", honeypot_admin_login),
     path("control-center-8x7k2q/", admin.site.urls),
+
+    path(
+        "robots.txt",
+        RedirectView.as_view(url="/static/robots.txt", permanent=True),
+    ),
+    path(
+        "sitemap.xml",
+        RedirectView.as_view(url="/static/sitemap.xml", permanent=True),
+    ),
 
     path('api/', include('api.urls')),
     path('api/', include('item.urls')),
