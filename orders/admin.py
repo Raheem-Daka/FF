@@ -4,6 +4,7 @@ from .models import (
     Order,
     OrderItem,
     Commission,
+    CommissionAudit,
     Lead,
 )
 
@@ -153,7 +154,7 @@ class CommissionAuditAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
-        
+
 @admin.register(Lead)
 class LeadAdmin(admin.ModelAdmin):
     list_display = (
