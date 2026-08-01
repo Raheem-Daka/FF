@@ -128,7 +128,7 @@ class Lead(models.Model):
     name = models.CharField(max_length=255)
     phone = models.CharField(max_length=30)
     source = models.CharField(
-        max_length=20
+        max_length=20,
         choices=SOURCE_CHOICES,
         default="website"
     )
