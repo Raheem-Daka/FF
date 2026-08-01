@@ -111,6 +111,23 @@ class CommissionAdmin(admin.ModelAdmin):
         "order__id",
     )
 
+    read_only_fields = (
+        "order",
+        "rate",
+        "amount",
+        "paid",
+        "created_at",
+    )
+
+    def has_add_permission(self, request):
+        return False
+    
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False   
+        
 @admin.register(Lead)
 class LeadAdmin(admin.ModelAdmin):
     list_display = (
