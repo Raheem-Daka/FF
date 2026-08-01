@@ -100,7 +100,7 @@ class CommissionAdmin(admin.ModelAdmin):
         "rate",
         "amount",
         "paid",
-        "paid_at"
+        "paid_at",
         "created_at",
     )
 
