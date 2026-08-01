@@ -99,6 +99,7 @@ class CommissionAdmin(admin.ModelAdmin):
         "rate",
         "amount",
         "paid",
+        "paid_at"
         "created_at",
     )
 
@@ -116,6 +117,7 @@ class CommissionAdmin(admin.ModelAdmin):
         "rate",
         "amount",
         "paid",
+        "paid_at",
         "created_at",
     )
 
@@ -127,6 +129,30 @@ class CommissionAdmin(admin.ModelAdmin):
 
     def has_change_permission(self, request, obj=None):
         return False   
+
+@admin.register(CommissionAudit)
+class CommissionAuditAdmin(admin.ModelAdmin):
+    list_display = (
+        "commission",
+        "action",
+        "created_at",
+    )
+
+    readonly_fields = (
+        "commission",
+        "action",
+        "notes",
+        "created_at",
+    )
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
         
 @admin.register(Lead)
 class LeadAdmin(admin.ModelAdmin):

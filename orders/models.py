@@ -110,13 +110,90 @@ class Commission(models.Model):
     )
 
     paid = models.BooleanField(default=False)
+    paid_at = models.DateTimeField(
+        null=True,
+        blank=True
+    )
 
     created_at = models.DateTimeField(
         auto_now_add=True
     )
 
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+
+        self.amount = self.order.total * (
+            self.rate / Decimal("100")
+        )
+
+        if self.paid and not self.paid_at:
+            self.paid_at = timezone.now()
+
+        super().save(*args, **kwargs)
+
+        if is_new:
+            CommissionAudit.objects.create(
+                commission=self,
+                action="Commission Created"
+            )
+
     def __str__(self):
         return f"Commission for Order #{self.order.id}"
+
+class CommissionAudit(models.Model):
+    commission = models.ForeignKey(
+        Commission,
+        related_name="audits",
+        on_delete=models.CASCADE
+    )
+
+    action = models.CharField(
+        max_length=100
+    )
+
+    notes = models.TextField(
+        blank=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+
+        previously_paid = False
+
+        if self.pk:
+            previously_paid = (
+                Commission.objects
+                .get(pk=self.pk)
+                .paid
+            )
+
+        self.amount = self.order.total * (
+            self.rate / Decimal("100")
+        )
+
+        if self.paid and not self.paid_at:
+            self.paid_at = timezone.now()
+
+        super().save(*args, **kwargs)
+
+        if is_new:
+            CommissionAudit.objects.create(
+                commission=self,
+                action="Commission Created"
+            )
+
+        if not previously_paid and self.paid:
+            CommissionAudit.objects.create(
+                commission=self,
+                action="Commission Marked Paid"
+            )
+
+    def __str__(self):
+        return f"{self.action} - {self.commission.id}"
 
 class Lead(models.Model):
     SOURCE_CHOICES = [
