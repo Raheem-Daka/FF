@@ -7,6 +7,9 @@ from orders.models import Order
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 
+from decimal import Decimal
+from orders.models import Commission
+
 class Track(models.Model):
     STATUS_CHOICES = [
         ('pending', 'Pending'),
@@ -86,6 +89,21 @@ class Track(models.Model):
         if old_status != self.status:
             self.order.status = self.status
             self.order.save(update_fields=["status"])
+
+            # Create commission if delivered and source is website
+            if (
+                self.status == "delivered"
+                and self.order.source == "website"
+                and not hasattr(self.order, "commission")
+            ):
+                Commission.objects.get_or_create(
+                    order=self.order,
+                    defaults={
+                        "rate": 5,
+                        "amount": self.order.total * Decimal("0.05")
+                    }
+                )
+
 
         # Create tracking event
         if is_new or not self.events.filter(status=self.status).exists():

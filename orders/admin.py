@@ -1,7 +1,11 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Order, OrderItem
-
+from .models import (
+    Order,
+    OrderItem,
+    Commission,
+    Lead,
+)
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
@@ -87,3 +91,41 @@ class OrderAdmin(admin.ModelAdmin):
 class OrderItemAdmin(admin.ModelAdmin):
     list_display = ("order", "item", "quantity", "price", "subtotal")
     list_filter = ("order",)
+
+@admin.register(Commission)
+class CommissionAdmin(admin.ModelAdmin):
+    list_display = (
+        "order",
+        "rate",
+        "amount",
+        "paid",
+        "created_at",
+    )
+
+    list_filter = (
+        "paid",
+        "created_at",
+    )
+
+    search_fields = (
+        "order__id",
+    )
+
+@admin.register(Lead)
+class LeadAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "phone",
+        "source",
+        "created_at",
+    )
+
+    list_filter = (
+        "source",
+        "created_at",
+    )
+
+    search_fields = (
+        "name",
+        "phone",
+    )

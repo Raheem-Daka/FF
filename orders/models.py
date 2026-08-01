@@ -5,10 +5,10 @@ from item.models import Item
 
 class Order(models.Model):
     STATUS_CHOICES = [
-        ("Pending", "Pending"),
-        ("Processing", "Processing"),
-        ("Delivered", "Delivered"),
-        ("Cancelled", "Cancelled"),
+        ("pending", "Pending"),
+        ("processing", "Processing"),
+        ("delivered", "Delivered"),
+        ("cancelled", "Cancelled"),
     ]
 
     PAYMENT_CHOICES = [
@@ -17,6 +17,14 @@ class Order(models.Model):
         ("visa", "VISA"),
         ("paypal", "PayPal"),
         ("stripe", "Stripe"),
+    ]
+
+    SOURCE_CHOICES = [
+        ("website", "Website"),
+        ("whatsapp", "WhatsApp"),
+        ("facebook", "Facebook"),
+        ("instagram", "Instagram"),
+        ("walkin", "Walk In"),
     ]
 
     user = models.ForeignKey(
@@ -36,10 +44,16 @@ class Order(models.Model):
         default="cod"
     )
 
+    source = models.CharField(
+        max_length=20,
+        choices=SOURCE_CHOICES,
+        default="website"
+    )
+
     status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,
-        default="Pending"
+        default="pending"
     )
 
     subtotal = models.DecimalField(max_digits=12, decimal_places=2, default=0)
@@ -74,3 +88,48 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.item} x{self.quantity}"
+
+# Commission & Lead Models
+class Commission(models.Model):
+    order = models.OneToOneField(
+        Order,
+        on_delete=models.CASCADE,
+        related_name="commission"
+    )
+
+    rate = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        default=5.00
+    )
+
+    amount = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
+    paid = models.BooleanField(default=False)
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+        return f"Commission for Order #{self.order.id}"
+
+class Lead(models.Model):
+    SOURCE_CHOICES = [
+        ("website", "Website"),
+        ("facebook", "Facebook"),
+        ("instagram", "Instagram"),
+    ]
+
+    name = models.CharField(max_length=255)
+    phone = models.CharField(max_length=30)
+    source = models.CharField(
+        max_length=20
+        choices=SOURCE_CHOICES,
+        default="website"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)

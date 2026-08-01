@@ -1,8 +1,8 @@
-cd Documents/Admat/
+cd Documents/ff
 venv\scripts\activate
 python manage.py runserver
 
-cd Documents/Admat/admatDesigns
+cd Documents/ff/futurefurniture
 npm run dev
 
 ssh-keygen -t ed25519 -C "your_email@example.com"
@@ -70,3 +70,9 @@ git push
 git pull
 python manage.py collectstatic --noinput
 
+class Commission(models.Model):
+    order = models.OneToOneField(Order, on_delete=models.CASCADE)
+    rate = models.DecimalField(max_digits=5, decimal_places=2)
+    amount = models.DecimalField(max_digits=12, decimal_places=2)
+    paid = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
