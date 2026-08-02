@@ -3,12 +3,11 @@ from django.db import models
 from django.contrib.auth.models import User
 from account.models import Billing, Address
 from item.models import Item
-from orders.models import Order
+from orders.models import Order, Commission
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 
 from decimal import Decimal
-from orders.models import Commission
 
 class Track(models.Model):
     STATUS_CHOICES = [
