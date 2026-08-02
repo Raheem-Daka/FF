@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.db import models
 from item.models import Item
-from tracking.models import Track, TrackingEvent
 from decimal import Decimal
 from django.utils import timezone
 from django.db.models import F
@@ -70,6 +69,8 @@ class Order(models.Model):
         ordering = ["-created_at"]
 
     def save(self, *args, **kwargs):
+        from tracking.models import Track, TrackingEvent
+        
         old_status = None
 
         if self.pk:
