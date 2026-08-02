@@ -70,7 +70,7 @@ class Order(models.Model):
 
     def save(self, *args, **kwargs):
         from tracking.models import Track, TrackingEvent
-        
+
         old_status = None
 
         if self.pk:
@@ -86,7 +86,8 @@ class Order(models.Model):
             Commission.objects.get_or_create(
                 order=self,
                 defaults={
-                    "rate": 5,
+                    "rate": Decimal("5.00"),
+                    "order_amaount": self.total,
                 }
             )
 
@@ -140,6 +141,12 @@ class Commission(models.Model):
         related_name="commission"
     )
 
+    order_amaount = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
     rate = models.DecimalField(
         max_digits=5,
         decimal_places=2,
@@ -164,6 +171,9 @@ class Commission(models.Model):
 
     def save(self, *args, **kwargs):
         is_new = self.pk is None
+
+        if is_new:
+            self.order_amaount = self.order.total
 
         self.amount = self.order.total * (
             self.rate / Decimal("100")
