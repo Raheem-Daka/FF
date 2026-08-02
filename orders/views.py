@@ -8,20 +8,47 @@ from .models import Order, OrderItem, Commission, Lead
 from .serializers import OrderSerializer, CreateOrderSerializer
 from cart.models import Cart
 from django.db import transaction
-from tracking.models import Track
 
 from django.conf import settings
-from django.db.models import F
 from django.utils import timezone
 from datetime import timedelta
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from account.models import Address
 
+from tracking.models import Track, TrackingEvent
+from rest_framework.decorators import action
+from django.db.models import F
+from rest_framework.exceptions import PermissionDenied
 
 # Create your views here.
 class OrdersViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
+
+    @action(detail=True, methods=["post"])
+    def cancel(self, request, pk=None):
+        order = self.get_object()
+
+        if order.user != request.user:
+            raise PermissionDenied(
+                "You cannot cancel another user's order."
+            )
+
+        if order.status in ["delivered", "cancelled"]:
+            return Response(
+                {"error": "Order cannot be cancelled."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        order.status = "cancelled"
+        order.save()
+
+        self.notify_order_update(order)
+
+        return Response(
+            {"message": "Order cancelled successfully"},
+            status=status.HTTP_200_OK
+        )
 
     def notify_order_update(self, order):
         channel_layer = get_channel_layer()
@@ -79,7 +106,6 @@ class OrdersViewSet(viewsets.ModelViewSet):
 
                 order = Order.objects.create(
                     user=user,
-                    source=request.data.get("source", "website"),
                     **serializer.validated_data,
                 )
 
@@ -120,16 +146,7 @@ class OrdersViewSet(viewsets.ModelViewSet):
                 order.subtotal = subtotal
                 order.delivery_fee = 0 if subtotal > 50000 else 5000
                 order.total = subtotal + order.delivery_fee
-                order.save()
-
-                # create Comission Lead if source is website
-                if (order.status == "delivered" and order.source == "website"):
-                    Commission.objects.get_or_create(
-                        order=order,
-                        defaults={
-                            "rate": 5,
-                        }
-                    )   
+                order.save()  
 
                 if order.source == "website":
                     Lead.objects.get_or_create(

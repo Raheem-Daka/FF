@@ -1,7 +1,10 @@
 from django.conf import settings
 from django.db import models
 from item.models import Item
-
+from tracking.models import Track, TrackingEvent
+from decimal import Decimal
+from django.utils import timezone
+from django.db.models import F
 
 class Order(models.Model):
     STATUS_CHOICES = [
@@ -65,6 +68,45 @@ class Order(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
+
+    def save(self, *args, **kwargs):
+        old_status = None
+
+        if self.pk:
+            old_status = Order.objects.get(pk=self.pk).status
+
+        super().save(*args, **kwargs)
+
+        if (
+            old_status != "delivered"
+            and self.status == "delivered"
+            and self.source == "website"
+        ):
+            Commission.objects.get_or_create(
+                order=self,
+                defaults={
+                    "rate": 5,
+                }
+            )
+
+        if (old_status and old_status != "cancelled" and self.status == "cancelled"):
+            track = Track.objects.filter(order=self).first()
+            
+            if track:
+                track.status="cancelled"
+                track.save()
+
+                TrackingEvent.objects.create(
+                    track=track,
+                    status="cancelled",
+                    description="Order has been cancelled"
+                )
+            for order_item in self.items.all():
+                Item.objects.filter(
+                    pk=order_item.item.id
+                ).update(
+                    stock=F("stock") + order_item.quantity 
+                )
 
     def __str__(self):
         return f"Order #{self.id} - {self.user}"
@@ -159,39 +201,6 @@ class CommissionAudit(models.Model):
         auto_now_add=True
     )
 
-    def save(self, *args, **kwargs):
-        is_new = self.pk is None
-
-        previously_paid = False
-
-        if self.pk:
-            previously_paid = (
-                Commission.objects
-                .get(pk=self.pk)
-                .paid
-            )
-
-        self.amount = self.order.total * (
-            self.rate / Decimal("100")
-        )
-
-        if self.paid and not self.paid_at:
-            self.paid_at = timezone.now()
-
-        super().save(*args, **kwargs)
-
-        if is_new:
-            CommissionAudit.objects.create(
-                commission=self,
-                action="Commission Created"
-            )
-
-        if not previously_paid and self.paid:
-            CommissionAudit.objects.create(
-                commission=self,
-                action="Commission Marked Paid"
-            )
-
     def __str__(self):
         return f"{self.action} - {self.commission.id}"
 
@@ -210,3 +219,5 @@ class Lead(models.Model):
         default="website"
     )
     created_at = models.DateTimeField(auto_now_add=True)
+
+

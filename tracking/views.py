@@ -18,13 +18,20 @@ class TrackingViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return Track.objects.filter(order__user=self.request.user)
+        if self.request.user.is_staff:
+            return Track.objects.all()
+
+        return Track.objects.filter(
+            order__user=self.request.user
+        )
 
     def perform_create(self, serializer):
         order = serializer.validated_data.get("order")
 
-        if order.user != self.request.user:
-            raise PermissionDenied("You cannot use another user's order")
+        if not self.request.user.is_staff:
+            raise PermissionDenied(
+            "Only staff can create tracking records."
+        )
 
         track = serializer.save()
 
@@ -33,7 +40,10 @@ class TrackingViewSet(viewsets.ModelViewSet):
     def notify_user(self, track):
         channel_layer = get_channel_layer()
 
-        serializer = TrackSerializer(track)
+        serializer = TrackSerializer(
+            track,
+            context={"request": self.request}
+        )
 
         async_to_sync(channel_layer.group_send)(
             f"user_{track.order.user.id}",
@@ -43,8 +53,21 @@ class TrackingViewSet(viewsets.ModelViewSet):
             }
         )
     def perform_update(self, serializer):
+        if not self.request.user.is_staff:
+            raise PermissionDenied(
+                "Only staff can update tracking records."
+            )
+
         track = serializer.save()
         self.notify_user(track)
+
+    def perform_destroy(self, instance):
+        if not self.request.user.is_staff:
+            raise PermissionDenied(
+                "Only staff can delete tracking records."
+            )
+
+        instance.delete()
 
     @action(detail=True, methods=['get'])
     def events(self, request, pk=None):

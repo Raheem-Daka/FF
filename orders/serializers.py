@@ -17,6 +17,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
             "price",
             "subtotal",
         )
+        
 
 class OrderSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True, read_only=True)
@@ -28,7 +29,8 @@ class OrderSerializer(serializers.ModelSerializer):
             "full_name",       
             "phone",            
             "address",          
-            "city",             
+            "city",
+            "source",             
             "status",
             "payment_method",
             "subtotal",
@@ -47,3 +49,17 @@ class CreateOrderSerializer(serializers.Serializer):
     payment_method = serializers.ChoiceField(
         choices=Order.PAYMENT_CHOICES
     )
+    source = serializers.ChoiceField(
+        choices=Order.SOURCE_CHOICES,
+        default="website",
+        required=False
+    )
+
+    def validate_phone(self, value):
+        value = value.strip()
+        
+        if len(value) < 10:
+            raise serializers.ValidationError(
+                "Invalid phone number."
+            )
+        return value
