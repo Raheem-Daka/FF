@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from item.models import Item
 from rest_framework.exceptions import ValidationError
 
-from .models import Order
+from .models import Order, OrderItem, Commission, Lead
 from .serializers import OrderSerializer, CreateOrderSerializer
 from cart.models import Cart
 from django.db import transaction
@@ -16,12 +16,14 @@ from django.utils import timezone
 from datetime import timedelta
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
+from account.models import Address
+
 
 # Create your views here.
 class OrdersViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
-    def notify_order_update(order):
+    def notify_order_update(self, order):
         channel_layer = get_channel_layer()
 
         async_to_sync(channel_layer.group_send)(
@@ -47,14 +49,17 @@ class OrdersViewSet(viewsets.ModelViewSet):
         return OrderSerializer
 
     def get_default_address(self):
-        return Address.objects.filter(account=self.account, is_default=True).first()
+        return Address.objects.filter(
+            account=self.request.user.account, 
+            is_default=True
+            ).first()
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         user = request.user
-
+        
         try:
             with transaction.atomic():
 
@@ -74,6 +79,7 @@ class OrdersViewSet(viewsets.ModelViewSet):
 
                 order = Order.objects.create(
                     user=user,
+                    source=request.data.get("source", "website"),
                     **serializer.validated_data,
                 )
 
@@ -98,7 +104,17 @@ class OrdersViewSet(viewsets.ModelViewSet):
 
                     #item.stock = F("stock") - quantity
                     #item.save(update_fields=["stock"])
-                    Item.objects.filter(id=item.id).update(stock=F("stock") - quantity)
+                    updated = Item.objects.filter(
+                        id=item.id,
+                        stock__gte=quantity
+                    ).update(
+                        stock=F("stock") - quantity
+                    )
+
+                    if updated == 0:
+                        raise ValidationError(
+                            f"{item.name} is out of stock"
+                        )
                     subtotal += line_total
 
                 order.subtotal = subtotal
@@ -106,6 +122,24 @@ class OrdersViewSet(viewsets.ModelViewSet):
                 order.total = subtotal + order.delivery_fee
                 order.save()
 
+                # create Comission Lead if source is website
+                if (order.status == "delivered" and order.source == "website"):
+                    Commission.objects.get_or_create(
+                        order=order,
+                        defaults={
+                            "rate": 5,
+                        }
+                    )   
+
+                if order.source == "website":
+                    Lead.objects.get_or_create(
+                        phone=order.phone,
+                        defaults={
+                            "name": order.full_name,
+                            "source": order.source,
+                        }
+                    )
+                # Create Commission if source is website
                 # Auto create Track
                 track = Track.objects.create(
                     order=order,
@@ -113,6 +147,7 @@ class OrdersViewSet(viewsets.ModelViewSet):
                     status="pending",
                     estimated_delivery=timezone.now().date() + timedelta(days=3)
                 )
+                self.notify_order_update(order)
 
                 cart_items.delete()
 
