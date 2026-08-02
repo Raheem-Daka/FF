@@ -221,7 +221,7 @@ const Profile = () => {
             setIsEditing(false);
             setProgress(0);
 
-            toast.success("Profile updated ✅");
+            toast.success("Profile updated.");
           }, 1000);
 
         } else {
@@ -262,7 +262,7 @@ const Profile = () => {
       <div className="flex-1 py-6 transition-all duration-300">
         <div className="rounded lg:max-w-4xl mx-auto p-6">
           {loading ? (
-            <div className="flex flex-col items-center justify-center py-20 h-screen">
+            <div className="flex flex-col items-center py-20 h-screen">
               <div className="w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
               <p className="mt-3 text-gray-500">Loading profile...</p>
             </div>
@@ -392,7 +392,7 @@ const Profile = () => {
             {!isEditing ? (
               <button
                 onClick={() => setIsEditing(true)}
-                className="cursor-pointer rounded bg-linear-to-b from-orange-600 to-orange-800 text-orange-100 transition hover:from-orange-700 hover:to-orange-900 py-3 px-2 text-sm text-sm"
+                className="cursor-pointer rounded bg-orange-600 text-orange-100 transition hover:from-orange-700 hover:to-orange-900 py-3 px-2 text-sm text-sm"
               >
                 Edit Profile
               </button>
@@ -405,9 +405,11 @@ const Profile = () => {
                       email: user.email,
                       image: null,
                     });
+
                     setPreview(user.imageUrl || null);
-                    setIsEditing(false)}}
-                  className="bg-gray-300 px-4 py-2 rounded text-sm"
+                    setIsEditing(false);
+                  }}
+                  className="bg-gray-300 w-20 px-2 py-3 rounded text-sm"
                 >
                   Cancel
                 </button>
@@ -415,13 +417,14 @@ const Profile = () => {
                 <button
                   onClick={handleSave}
                   disabled={!isEditing || saving}
-                  className="bg-green-600 text-white px-4 py-2 rounded flex items-center gap-2 text-sm"
+                  className="bg-green-600 text-white w-20 px-2 py-3 rounded text-sm flex items-center justify-center gap-2 disabled:opacity-50"
                 >
-                  {saving && (
-                    <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                  {saving ? (
+                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    "Save"
                   )}
-                  { saving ? "" : "Save" }
-                </button>
+                </button>              
               </>
             )}
 

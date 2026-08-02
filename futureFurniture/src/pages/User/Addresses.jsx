@@ -291,7 +291,7 @@ const Addresses = () => {
 
           <button
             onClick={openModal}
-            className="cursor-pointer rounded bg-linear-to-b from-orange-600 to-orange-800 text-orange-100 transition hover:from-orange-700 hover:to-orange-900 py-1 px-2"
+            className="cursor-pointer rounded bg-orange-600 py-2 px-3 text-orange-100 transition hover:from-orange-700 hover:to-orange-900 py-1 px-2"
           >
             + Add
           </button>

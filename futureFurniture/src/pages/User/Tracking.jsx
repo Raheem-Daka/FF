@@ -157,33 +157,34 @@ const Tracking = () => {
       };
 
       socketRef.current.onmessage = (event) => {
-        const data = JSON.parse(event.data);
+        const payload = JSON.parse(event.data);
+        const tracking = payload.data || payload;
 
-        setTrackedItems((prev) =>
-          prev.map((item) =>
-            item.id === data.id ? { ...item, ...data } : item
+        setTrackedItems(prev =>
+          prev.map(item =>
+            item.id === tracking.id
+              ? { ...item, ...tracking }
+              : item
           )
         );
 
         setPrevStatuses(prev => {
-          if (prev[data.id] &&prev[data.id] !== data.status) {
-            toast.success(`Order #${data.order_id} → ${data.status}`);
+          if (
+            prev[tracking.id] &&
+            prev[tracking.id] !== tracking.status
+          ) {
+            toast.success(
+              `Order #${tracking.order_id} → ${tracking.status}`
+            );
           }
 
-          return { ...prev, [data.id]: data.status };
+          return {
+            ...prev,
+            [tracking.id]: tracking.status,
+          };
         });
-        
-        // highlight + scroll
-        setHighlightId(data.id);
-        setTimeout(() => setHighlightId(null), 1500);
-      
-        setTimeout(() => {
-          document.getElementById(`row-${data.id}`)?.scrollIntoView({
-            behavior: "smooth",
-          });          
-        }, 100)
       };
-
+      
       socketRef.current.onerror = (err) => {
         console.error("❌ WebSocket error", err);
         socketRef.current?.close(); 

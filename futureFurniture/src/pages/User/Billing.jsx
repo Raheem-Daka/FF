@@ -230,7 +230,7 @@ const Billing = () => {
       <div className="flex-1 p-6 transition-all duration-300">
         {/* HEADER */}
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">My Cards</h1>
+          <h1 className="flex items-center gap-2 text-2xl text-gray-500 font-bold"><FaCreditCard />My Cards</h1>
 
           <button
             onClick={openModal}

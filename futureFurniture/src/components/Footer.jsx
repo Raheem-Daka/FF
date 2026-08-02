@@ -7,6 +7,7 @@ import {
   FaPhone,
   FaMapMarkerAlt,
   FaEnvelope,
+  FaWhatsapp,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
@@ -107,10 +108,10 @@ const Footer = () => {
 
       {/* Contact Section */}
       <div className="max-w-7xl mx-auto px-6 py-8 border-t border-orange-200">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Address */}
           <div className="flex items-start gap-3">
-            <div className="p-3 rounded-full bg-white shadow">
+            <div className="p-3 rounded-full bg-white shadow-sm mb-1">
               <FaMapMarkerAlt className="text-orange-600" />
             </div>
 
@@ -126,29 +127,43 @@ const Footer = () => {
 
           {/* Phone */}
           <div className="flex items-start gap-3">
-            <div className="p-3 rounded-full bg-white shadow">
+            <div className="p-3 rounded-full bg-white shadow-sm mb-1">
               <FaPhone className="text-orange-600" />
             </div>
 
             <div>
               <h4 className="font-medium">Phone</h4>
-              <p className="text-sm text-gray-600">
-                +265 (999) 999-9999
-              </p>
+              <a href="tel:+265992739724" className="text-sm text-gray-600 hover:text-orange-600 transition">
+                +265 (992) 739-724
+              </a>
             </div>
           </div>
 
           {/* Email */}
           <div className="flex items-start gap-3">
-            <div className="p-3 rounded-full bg-white shadow">
+            <div className="p-3 rounded-full bg-white shadow-sm mb-1">
               <FaEnvelope className="text-orange-600" />
             </div>
 
             <div>
               <h4 className="font-medium">Email</h4>
-              <p className="text-sm text-gray-600">
+              <a href="mailto:furniture@furniture.com" className="text-sm text-gray-600 line-clamp-1 hover:text-orange-600 transition">
                 furniture@furniture.com
-              </p>
+              </a>
+            </div>
+          </div>
+
+          {/* Whatsapp */}
+          <div className="flex items-start gap-3">
+            <div className="p-3 rounded-full bg-white shadow-sm mb-1">
+              <FaWhatsapp className="text-orange-600" />
+            </div>
+
+            <div>
+              <h4 className="font-medium">WhatsApp</h4>
+              <a href="https://wa.me/265992739724" target="_blank" rel="noopener noreferrer" className="text-sm text-gray-600 line-clamp-1 hover:text-orange-600 transition">
+                +265 (992) 739-724
+              </a>
             </div>
           </div>
         </div>
