@@ -97,6 +97,7 @@ class OrderItemAdmin(admin.ModelAdmin):
 class CommissionAdmin(admin.ModelAdmin):
     list_display = (
         "order",
+        "order_amaount",
         "rate",
         "amount",
         "paid",
@@ -115,6 +116,7 @@ class CommissionAdmin(admin.ModelAdmin):
 
     read_only_fields = (
         "order",
+        "order_amaount",
         "rate",
         "amount",
         "paid",
